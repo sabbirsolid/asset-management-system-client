@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProvider';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const {user} = useContext(AuthContext);
+  const {user, logOut} = useContext(AuthContext);
+  console.log(user);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -20,9 +21,9 @@ const Navbar = () => {
       <NavLink to="/request-asset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
       <NavLink to="/profile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
-        <img src="/path/to/profile-pic.jpg" alt="Profile" className="w-8 h-8 rounded-full" />
-        <span>John Doe</span>
-        <button className="text-red-400 hover:text-red-600 transition">Logout</button>
+        <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
+        <span>{user?.displayName}</span>
+        <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>
       </div>
     </>
   ) : isHR ? (
@@ -35,16 +36,16 @@ const Navbar = () => {
       <NavLink to="/add-employee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
       <NavLink to="/profile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
-        <img src="/path/to/profile-pic.jpg" alt="Profile" className="w-8 h-8 rounded-full" />
-        <span>Jane Doe</span>
-        <button className="text-red-400 hover:text-red-600 transition">Logout</button>
+        <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
+        <span>{user?.displayName}</span>
+        <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>
       </div>
     </>
   ) : (
     <>
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
       <NavLink to="/joinAsEmployee" className="text-gray-300 hover:text-yellow-400 transition">Join as Employee</NavLink>
-      <NavLink to="/join-hr" className="text-gray-300 hover:text-yellow-400 transition">Join as HR Manager</NavLink>
+      <NavLink to="/joinAsHRManager" className="text-gray-300 hover:text-yellow-400 transition">Join as HR Manager</NavLink>
       <NavLink to="/login" className="text-gray-300 hover:text-yellow-400 transition">Login</NavLink>
     </>
   );
@@ -55,13 +56,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-yellow-400 text-xl font-bold">
+            <Link href="/" className="text-yellow-400 text-xl font-bold">
               {isEmployee || isHR ? <>
               {
                 isEmployee? 'Employee Logo':'HR Logo'
               }
               </> : 'XYZ'}
-            </a>
+            </Link>
           </div>
 
           {/* Navigation Links for Desktop */}

@@ -1,9 +1,17 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../Firebase/firebase.config";
+import { updateProfile } from "firebase/auth";
 
 const JoinAsEmployee = () => {
-    const {signInWithEmail} = useContext(AuthContext)
+  const { createUserWithEmail, signInWithGoogle, loading } =
+    useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -12,18 +20,67 @@ const JoinAsEmployee = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    signInWithEmail(data.email, data.password)
-    .then(res => {
-        console.log(res.user);
-    })
+    const password = data.password;
+    // Combined validation for uppercase and lowercase
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
+      setError(
+        "Password must contain at least one uppercase and one lowercase letter."
+      );
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+    setError("");
+
+    createUserWithEmail(data.email, password)
+      .then(() => {
+        updateProfile(auth.currentUser, { displayName: data.name, photoURL: "Nai" })
+          .then(() => {
+            navigate("/");
+            // navigate(location?.state ? location.state : "/");
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "You have successfully created an account",
+              showConfirmButton: true,
+            });
+            reset();
+          })
+          .catch((error) => {
+            setError(`Failed to update profile: ${error.message}`);
+          });
+      })
+      .catch((error) => {
+        setError(`Failed to register: ${error.message}`);
+      });
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <span className="loading loading-spinner text-info text-5xl"></span>
+      </div>
+    );
+  }
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle()
+      .then(() => {
+        // navigate(location?.state ? location.state : "/");
+
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "You have successfully created an account",
+          showConfirmButton: true,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(`Failed to register: ${error.message}`);
+      });
   };
 
   return (
@@ -44,7 +101,7 @@ const JoinAsEmployee = () => {
               type="text"
               id="fullName"
               name="fullName"
-              {...register('name')}
+              {...register("name")}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             />
@@ -60,7 +117,7 @@ const JoinAsEmployee = () => {
               type="email"
               id="email"
               name="email"
-              {...register('email')}
+              {...register("email")}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             />
@@ -77,7 +134,7 @@ const JoinAsEmployee = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
-                {...register('password')}
+                {...register("password")}
                 required
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
@@ -90,7 +147,7 @@ const JoinAsEmployee = () => {
               </button>
             </div>
           </div>
-          
+
           <div>
             <label
               htmlFor="dob"
@@ -102,7 +159,7 @@ const JoinAsEmployee = () => {
               type="date"
               id="dob"
               name="dob"
-              {...register('dob')}
+              {...register("dob")}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             />
@@ -118,7 +175,7 @@ const JoinAsEmployee = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">Or sign up using</p>
           <button
-            onClick={handleGoogleLogin}
+            onClick={handleSignInWithGoogle}
             className="mt-2 flex items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Continue with Google
