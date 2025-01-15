@@ -1,9 +1,15 @@
 import { createBrowserRouter} from "react-router-dom";
+import Main from "../Layouts/Main";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div className="text-center text-3xl text-amber-500">Hello world!</div>,
+    element: <Main></Main>,
+    children: [
+        {
+            
+        }
+    ]
   },
 ]);
 
