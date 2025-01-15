@@ -1,16 +1,16 @@
-
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../Providers/AuthProvider';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  // const {user} = useContext(AuthContext);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const isEmployee = false;
-  const isHR = true;
+  const isHR = false;
 
   const links = isEmployee ? (
     <>
@@ -43,7 +43,7 @@ const Navbar = () => {
   ) : (
     <>
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/join-employee" className="text-gray-300 hover:text-yellow-400 transition">Join as Employee</NavLink>
+      <NavLink to="/joinAsEmployee" className="text-gray-300 hover:text-yellow-400 transition">Join as Employee</NavLink>
       <NavLink to="/join-hr" className="text-gray-300 hover:text-yellow-400 transition">Join as HR Manager</NavLink>
       <NavLink to="/login" className="text-gray-300 hover:text-yellow-400 transition">Login</NavLink>
     </>
