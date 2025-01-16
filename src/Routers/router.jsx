@@ -3,6 +3,7 @@ import Main from "../Layouts/Main";
 import JoinAsEmployee from "../pages/JoinAsEmpoyee/JoinAsEmployee";
 import JoinAsHRManager from "../pages/JoinAsHRManager/JoinAsHRManager";
 import Home from "../pages/Home/Home/Home";
+import Login from "../pages/Shared/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
         path: "joinAsHRManager",
         element: <JoinAsHRManager></JoinAsHRManager>,
       },
+      {
+        path: 'login',
+        element: <Login></Login>
+      }
     ],
   },
 ]);

@@ -1,17 +1,25 @@
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProvider';
+import useHR from '../../../hooks/useHR';
+import useEmployee from '../../../hooks/useEmployee';
+import useUserRoles from '../../../hooks/useUserRoles';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const {user, logOut} = useContext(AuthContext);
+  // const [isHR, isLoading] = useHR();
+  // const [isHR] = useHR();
+  // const [isEmployee] = useEmployee()
+  const{isHR, isEmployee}= useUserRoles();
   console.log(user);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  const isEmployee = false;
-  const isHR = false;
+  console.log('isHR:',isHR);
+  console.log('isEmployee:',isEmployee);
+  // const isEmployee = false;
+  // const isHR = false;
 
   const links = isEmployee ? (
     <>
@@ -47,6 +55,7 @@ const Navbar = () => {
       <NavLink to="/joinAsEmployee" className="text-gray-300 hover:text-yellow-400 transition">Join as Employee</NavLink>
       <NavLink to="/joinAsHRManager" className="text-gray-300 hover:text-yellow-400 transition">Join as HR Manager</NavLink>
       <NavLink to="/login" className="text-gray-300 hover:text-yellow-400 transition">Login</NavLink>
+      {user && <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>}
     </>
   );
 
