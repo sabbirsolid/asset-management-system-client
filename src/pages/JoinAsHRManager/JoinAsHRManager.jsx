@@ -1,50 +1,184 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { useForm } from "react-hook-form";
+import { auth } from "../../Firebase/firebase.config";
+import GoogleLogin from "../../components/GoogleLogin";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { updateProfile } from "firebase/auth";
 
 const JoinAsHRManager = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    companyName: "",
-    companyLogo: null,
-    email: "",
-    password: "",
-    dateOfBirth: "",
-    package: "5",
-  });
+  const { createUserWithEmail, loading, signInWithGoogle } =
+    useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const axiosPublic = useAxiosPublic();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const onSubmit = (data) => {
+      const password = data.password;
+      // Combined validation for uppercase and lowercase
+      if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
+        setError(
+          "Password must contain at least one uppercase and one lowercase letter."
+        );
+        return;
+      }
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        return;
+      }
+      setError("");
+  
+      createUserWithEmail(data.email, password)
+        .then(() => {
+          updateProfile(auth.currentUser, {
+            displayName: data.name,
+            photoURL: "Nai",
+          })
+            .then((res) => {
+              // navigate(location?.state ? location.state : "/");
+              const userInfo = {
+                name: data.name,
+                email: data.email,
+                role: "HRManager",
+              };
+              axiosPublic.post("/users", userInfo).then((res) => {
+                console.log(res.data);
+                if (res.data.insertedId) {
+                  alert("data is saved to the database, data of:", res.user.displayName);
+                }
+              });
+              Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "You have successfully created an account",
+                showConfirmButton: true,
+              });
+              reset();
+              navigate("/");
+            })
+            .catch((error) => {
+              setError(`Failed to update profile: ${error.message}`);
+            });
+        })
+        .catch((error) => {
+          setError(`Failed to register: ${error.message}`);
+        });
+    };
+
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  //   const password = data.password;
+  //   // Combined validation for uppercase and lowercase
+  //   if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
+  //     setError(
+  //       "Password must contain at least one uppercase and one lowercase letter."
+  //     );
+  //     return;
+  //   }
+  //   if (password.length < 6) {
+  //     setError("Password must be at least 6 characters long.");
+  //     return;
+  //   }
+  //   setError("");
+
+  //   createUserWithEmail(data.email, password)
+  //     .then(() => {
+  //       updateProfile(auth.currentUser, {
+  //         displayName: data.name,
+  //         photoURL: "Nai",
+  //       })
+  //         .then(() => {
+  //           navigate("/");
+  //           // navigate(location?.state ? location.state : "/");
+  //           const userInfo = {
+  //             name: data.name,
+  //             email: data.email,
+  //             role: "employee",
+  //           };
+  //           axiosPublic.post("/users", userInfo).then((res) => {
+  //             console.log(res.data);
+  //             if (res.data.insertedId) {
+  //               alert("data is saved to the database, data of:", data.name);
+  //             }
+  //           });
+  //           Swal.fire({
+  //             position: "top-center",
+  //             icon: "success",
+  //             title: "You have successfully created an account",
+  //             showConfirmButton: true,
+  //           });
+  //           reset();
+  //         })
+  //         .catch((error) => {
+  //           setError(`Failed to update profile: ${error.message}`);
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       setError(`Failed to register: ${error.message}`);
+  //     });
+  // };
+
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle().then((res) => {
+      const userInfo = {
+        name: res.user.displayName,
+        email: res.user.email,
+        role: "HRManager",
+      };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          alert("data is saved to the database, data of:", data.user.displayName);
+        }
+      });
+      console.log(res.user);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "You have successfully created an account",
+        showConfirmButton: true,
+      });
+    });
   };
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, companyLogo: e.target.files[0] });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted", formData);
-    // Redirect to payment page or handle payment here
-    // window.location.href = "/payment"; // Example redirect
-  };
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <span className="loading loading-spinner text-info text-5xl"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Join as HR Manager</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Join as HR Manager
+        </h2>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="fullName">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="fullName"
+          >
             Full Name
           </label>
           <input
             type="text"
             id="fullName"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleInputChange}
+            {...register("name")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
@@ -61,8 +195,7 @@ const JoinAsHRManager = () => {
             type="text"
             id="companyName"
             name="companyName"
-            value={formData.companyName}
-            onChange={handleInputChange}
+            {...register("companyName")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
@@ -80,28 +213,30 @@ const JoinAsHRManager = () => {
             id="companyLogo"
             name="companyLogo"
             accept="image/*"
-            onChange={handleFileChange}
+            {...register("companyLogo")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="email">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleInputChange}
+            {...register("email")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
             Password
           </label>
@@ -109,37 +244,63 @@ const JoinAsHRManager = () => {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
-            onChange={handleInputChange}
+            {...register("password")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
+        </div> */}
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            {...register("password")}
+            required
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 px-3 text-gray-600 focus:outline-none"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="dateOfBirth">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="dateOfBirth"
+          >
             Date of Birth
           </label>
           <input
             type="date"
             id="dateOfBirth"
             name="dateOfBirth"
-            value={formData.dateOfBirth}
-            onChange={handleInputChange}
+            {...register("dob")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="package">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="package"
+          >
             Select a Package
           </label>
           <select
             id="package"
             name="package"
-            value={formData.package}
-            onChange={handleInputChange}
+            {...register("package")}
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
@@ -148,7 +309,7 @@ const JoinAsHRManager = () => {
             <option value="20">20 Members - $15</option>
           </select>
         </div>
-
+        {error && <p className="text-sm text-red-500">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -156,6 +317,16 @@ const JoinAsHRManager = () => {
           Sign Up
         </button>
       </form>
+      {/* <GoogleLogin></GoogleLogin> */}
+      <div className="mt-6 text-center">
+        <p className="text-sm text-gray-600">Or sign up using</p>
+        <button
+          onClick={handleSignInWithGoogle}
+          className="mt-2 flex items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+          Continue with Google
+        </button>
+      </div>
     </div>
   );
 };

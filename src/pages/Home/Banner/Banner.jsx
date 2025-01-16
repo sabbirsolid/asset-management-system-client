@@ -10,7 +10,7 @@ const Banner = () => {
       image: "https://via.placeholder.com/800x400?text=Join+as+HR+Manager",
       buttonText: "Join as HR Manager",
       buttonAction: () => {
-        <Link to="joinAsHRManager">Join as HR Manager</Link>
+        <Link to="/joinAsHRManager">Join as HR Manager</Link>
       },
     },
     {
@@ -18,7 +18,7 @@ const Banner = () => {
       image: "https://via.placeholder.com/800x400?text=Join+as+Employee",
       buttonText: "Join as Employee",
       buttonAction: () => {
-        <Link to="joinAsHRManager">Join as Employee</Link>
+        <Link to="/joinAsHRManager">Join as Employee</Link>
       },
     },
   ];

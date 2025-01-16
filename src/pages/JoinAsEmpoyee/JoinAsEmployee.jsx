@@ -5,13 +5,17 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
+import GoogleLogin from "../../components/GoogleLogin";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const JoinAsEmployee = () => {
-  const { createUserWithEmail, signInWithGoogle, loading } =
+  const { createUserWithEmail, loading, signInWithGoogle } =
     useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const axiosPublic = useAxiosPublic();
+  const [data, setData] = useState({});
   const {
     register,
     handleSubmit,
@@ -36,10 +40,23 @@ const JoinAsEmployee = () => {
 
     createUserWithEmail(data.email, password)
       .then(() => {
-        updateProfile(auth.currentUser, { displayName: data.name, photoURL: "Nai" })
+        updateProfile(auth.currentUser, {
+          displayName: data.name,
+          photoURL: "Nai",
+        })
           .then(() => {
-            navigate("/");
             // navigate(location?.state ? location.state : "/");
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              role: "employee",
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              console.log(res.data);
+              if (res.data.insertedId) {
+                alert("data is saved to the database, data of:", data.name);
+              }
+            });
             Swal.fire({
               position: "top-center",
               icon: "success",
@@ -47,6 +64,7 @@ const JoinAsEmployee = () => {
               showConfirmButton: true,
             });
             reset();
+            navigate("/");
           })
           .catch((error) => {
             setError(`Failed to update profile: ${error.message}`);
@@ -66,21 +84,26 @@ const JoinAsEmployee = () => {
   }
 
   const handleSignInWithGoogle = () => {
-    signInWithGoogle()
-      .then(() => {
-        // navigate(location?.state ? location.state : "/");
-
-        Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "You have successfully created an account",
-          showConfirmButton: true,
-        });
-        navigate("/");
-      })
-      .catch((error) => {
-        setError(`Failed to register: ${error.message}`);
+    signInWithGoogle().then((res) => {
+      const userInfo = {
+        name: res.user.displayName,
+        email: res.user.email,
+        role: "employee",
+      };
+      axiosPublic.post("/users", userInfo).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          alert("data is saved to the database, data of:", data.name);
+        }
       });
+      console.log(res.user);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "You have successfully created an account",
+        showConfirmButton: true,
+      });
+    });
   };
 
   return (
@@ -172,6 +195,7 @@ const JoinAsEmployee = () => {
             Sign Up
           </button>
         </form>
+        {/* <GoogleLogin></GoogleLogin> */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">Or sign up using</p>
           <button
