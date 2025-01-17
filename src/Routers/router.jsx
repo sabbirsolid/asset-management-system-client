@@ -6,6 +6,7 @@ import Home from "../pages/Home/Home/Home";
 import Login from "../pages/Shared/Login/Login";
 import AssetList from "../pages/ForHR/AssetList";
 import AddAsset from "../pages/ForHR/AddAsset";
+import HrRoute from "./HrRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,11 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'hr/assetList',
-        element: <AssetList></AssetList>
+        element: <HrRoute><AssetList></AssetList></HrRoute>
       },
       {
         path: 'hr/addAsset',
-        element: <AddAsset></AddAsset>
+        element: <HrRoute><AddAsset></AddAsset></HrRoute>
       },
     ],
   },
