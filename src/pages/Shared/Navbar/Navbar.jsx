@@ -1,8 +1,6 @@
 import { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProvider';
-import useHR from '../../../hooks/useHR';
-import useEmployee from '../../../hooks/useEmployee';
 import useUserRoles from '../../../hooks/useUserRoles';
 
 const Navbar = () => {
@@ -37,8 +35,8 @@ const Navbar = () => {
   ) : isHR ? (
     <>
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/asset-list" className="text-gray-300 hover:text-yellow-400 transition">Asset List</NavLink>
-      <NavLink to="/add-asset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
+      <NavLink to="/hr/assetList" className="text-gray-300 hover:text-yellow-400 transition">Asset List</NavLink>
+      <NavLink to="/hr/addAsset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
       <NavLink to="/all-requests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
       <NavLink to="/employee-list" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
       <NavLink to="/add-employee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
