@@ -7,6 +7,8 @@ import Login from "../pages/Shared/Login/Login";
 import AssetList from "../pages/ForHR/AssetList";
 import AddAsset from "../pages/ForHR/AddAsset";
 import HrRoute from "./HrRoute";
+import RequestForAnAsset from "../pages/ForEmployee/RequestForAnAsset";
+import MyRequests from "../pages/ForEmployee/MyRequestedAssets";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
         path: 'hr/addAsset',
         element: <HrRoute><AddAsset></AddAsset></HrRoute>
       },
+      {
+        path: "requestForAsset",
+        element: <RequestForAnAsset></RequestForAnAsset>
+      },
+      {
+        path: 'myRequestedAssets',
+        element: <MyRequests></MyRequests>
+      }
     ],
   },
 ]);

@@ -17,10 +17,10 @@ const AddAsset = () => {
     const assetData = {
       name: data.name,
       type: data.type,
-      quantity: parseInt(data.quantity),
-    };
+      quantity: parseInt(data.quantity)
+        };
     console.log(assetData);
-    axiosSecure.patch("http://localhost:5000/assets", data).then((res) => {
+    axiosSecure.patch("/assets", data).then((res) => {
       console.log(res.data);
       if (res.data.modifiedCount > 0 || res.data.upsertedId) {
         reset();

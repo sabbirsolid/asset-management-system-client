@@ -22,9 +22,9 @@ const Navbar = () => {
   const links = isEmployee ? (
     <>
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/my-assets" className="text-gray-300 hover:text-yellow-400 transition">My Assets</NavLink>
+      <NavLink to="/myRequestedAssets" className="text-gray-300 hover:text-yellow-400 transition">My Assets</NavLink>
       <NavLink to="/my-team" className="text-gray-300 hover:text-yellow-400 transition">My Team</NavLink>
-      <NavLink to="/request-asset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
+      <NavLink to="/requestForAsset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
       <NavLink to="/profile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
         <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />

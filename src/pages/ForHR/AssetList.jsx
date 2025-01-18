@@ -42,6 +42,7 @@ const AssetList = () => {
   const handleSort = (column, sortDirection) => {
     setSortConfig({ field: column.selector, order: sortDirection });
   };
+  
 
   const columns = [
     {
@@ -60,7 +61,7 @@ const AssetList = () => {
     },
     {
       name: "Date Added",
-      selector: (row) => new Date(row.dateAdded).toLocaleDateString(),
+      selector: (row) => new Date(row.addedDate).toLocaleDateString(),
     },
     {
       name: "Actions",
