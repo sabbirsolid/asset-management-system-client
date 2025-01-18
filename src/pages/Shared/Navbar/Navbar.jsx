@@ -25,7 +25,7 @@ const Navbar = () => {
       <NavLink to="/myRequestedAssets" className="text-gray-300 hover:text-yellow-400 transition">My Assets</NavLink>
       <NavLink to="/my-team" className="text-gray-300 hover:text-yellow-400 transition">My Team</NavLink>
       <NavLink to="/requestForAsset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
-      <NavLink to="/profile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
+      <NavLink to="/employeeProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
         <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
         <span>{user?.displayName}</span>
@@ -37,10 +37,10 @@ const Navbar = () => {
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
       <NavLink to="/hr/assetList" className="text-gray-300 hover:text-yellow-400 transition">Asset List</NavLink>
       <NavLink to="/hr/addAsset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
-      <NavLink to="/all-requests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
+      <NavLink to="/hr/allRequests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
       <NavLink to="/employee-list" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
       <NavLink to="/add-employee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
-      <NavLink to="/profile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
+      <NavLink to="/hr/hrProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
         <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
         <span>{user?.displayName}</span>

@@ -73,6 +73,7 @@ const RequestForAnAsset = () => {
       assetId: selectedAsset._id,
       name: selectedAsset.name,
       type: selectedAsset.type,
+      requesterName: user.displayName,
       requesterEmail: user.email,
       notes: additionalNotes,
       requestDate: new Date(),

@@ -7,7 +7,11 @@ const useUserRoles = () => {
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  const { data: roleData, isLoading } = useQuery({
+  const {
+    data: roleData,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: [user?.email, "roles"],
     enabled: !loading && !!user?.email,
     queryFn: async () => {
@@ -21,8 +25,7 @@ const useUserRoles = () => {
   const isEmployee = roleData?.isEmployee || false;
   const userObject = roleData?.user || null;
 
-  return { isHR, isEmployee, userObject, isLoading };
+  return { isHR, isEmployee, userObject, isLoading,refetch };
 };
 
 export default useUserRoles;
-

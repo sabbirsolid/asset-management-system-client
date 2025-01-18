@@ -9,6 +9,9 @@ import AddAsset from "../pages/ForHR/AddAsset";
 import HrRoute from "./HrRoute";
 import RequestForAnAsset from "../pages/ForEmployee/RequestForAnAsset";
 import MyRequests from "../pages/ForEmployee/MyRequestedAssets";
+import AllRequests from "../pages/ForHR/AllRequests";
+import HRProfile from "../pages/ForHR/HRProfile";
+import EmployeeProfile from "../pages/ForEmployee/EmployeeProfile";
 
 const router = createBrowserRouter([
   {
@@ -16,8 +19,8 @@ const router = createBrowserRouter([
     element: <Main></Main>,
     children: [
       {
-        path: '/',
-        element: <Home></Home>
+        path: "/",
+        element: <Home></Home>,
       },
       {
         path: "joinAsEmployee",
@@ -28,25 +31,53 @@ const router = createBrowserRouter([
         element: <JoinAsHRManager></JoinAsHRManager>,
       },
       {
-        path: 'login',
-        element: <Login></Login>
+        path: "login",
+        element: <Login></Login>,
       },
       {
-        path: 'hr/assetList',
-        element: <HrRoute><AssetList></AssetList></HrRoute>
+        path: "hr/assetList",
+        element: (
+          <HrRoute>
+            <AssetList></AssetList>
+          </HrRoute>
+        ),
       },
       {
-        path: 'hr/addAsset',
-        element: <HrRoute><AddAsset></AddAsset></HrRoute>
+        path: "hr/addAsset",
+        element: (
+          <HrRoute>
+            <AddAsset></AddAsset>
+          </HrRoute>
+        ),
+      },
+      {
+        path: "hr/allRequests",
+        element: (
+          <HrRoute>
+            <AllRequests></AllRequests>
+          </HrRoute>
+        ),
+      },
+      {
+        path: "hr/hrProfile",
+        element: (
+          <HrRoute>
+            <HRProfile></HRProfile>
+          </HrRoute>
+        ),
       },
       {
         path: "requestForAsset",
-        element: <RequestForAnAsset></RequestForAnAsset>
+        element: <RequestForAnAsset></RequestForAnAsset>,
       },
       {
-        path: 'myRequestedAssets',
-        element: <MyRequests></MyRequests>
-      }
+        path: "myRequestedAssets",
+        element: <MyRequests></MyRequests>,
+      },
+      {
+        path: "employeeProfile",
+        element: <EmployeeProfile></EmployeeProfile>
+      },
     ],
   },
 ]);

@@ -88,20 +88,18 @@ const MyRequestedAssets = () => {
       <Page size="A4" style={styles.page}>
         <View style={styles.companyInfo}>
           <Text style={{ fontSize: 16, fontWeight: "bold" }}>Company Name</Text>
-          <Text>Address Line 1</Text>
-          <Text>Address Line 2</Text>
-          <Text>Email: contact@company.com</Text>
+          <Text>Email: {request.requesterEmail}</Text>
         </View>
         <View style={styles.details}>
-          <Text>Asset Name: {request.assetName}</Text>
-          <Text>Asset Type: {request.assetType}</Text>
+          <Text>Asset Name: {request.name}</Text>
+          <Text>Asset Type: {request.type}</Text>
           <Text>
             Request Date: {new Date(request.requestDate).toLocaleDateString()}
           </Text>
           <Text>
             Approval Date: {new Date(request.approvalDate).toLocaleDateString()}
           </Text>
-          <Text>Request Status: {request.requestStatus}</Text>
+          <Text>Request Status: {request.status}</Text>
         </View>
         <Text style={styles.footer}>
           Printed on {new Date().toLocaleDateString()}
