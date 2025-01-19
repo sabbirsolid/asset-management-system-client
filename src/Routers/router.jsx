@@ -12,6 +12,7 @@ import MyRequests from "../pages/ForEmployee/MyRequestedAssets";
 import AllRequests from "../pages/ForHR/AllRequests";
 import HRProfile from "../pages/ForHR/HRProfile";
 import EmployeeProfile from "../pages/ForEmployee/EmployeeProfile";
+import Payment from "../pages/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "employeeProfile",
         element: <EmployeeProfile></EmployeeProfile>
+      },
+      {
+        path: "payment",
+        element: <Payment></Payment>
       },
     ],
   },

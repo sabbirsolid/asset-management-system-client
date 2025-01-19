@@ -13,6 +13,7 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState([]);
+  const [price, setPrice] = useState(null);
   const [loading, setLoading] = useState(true);
   const provider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
@@ -61,6 +62,8 @@ const AuthProvider = ({ children }) => {
     loading,
     signInWithGoogle,
     logOut,
+    price,
+    setPrice,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>

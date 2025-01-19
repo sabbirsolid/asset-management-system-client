@@ -1,20 +1,36 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import { auth } from "../../Firebase/firebase.config";
-import GoogleLogin from "../../components/GoogleLogin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { updateProfile } from "firebase/auth";
 
+// payments
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../Payment/CheckOutForm";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+
+const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const JoinAsHRManager = () => {
-  const { createUserWithEmail, loading, signInWithGoogle } =
+  const { createUserWithEmail, loading, signInWithGoogle, setPrice } =
     useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+
+  const [packages, setPackages] = useState([]);
+  useEffect(() => {
+    axiosPublic.get("/packages").then((res) => {
+      console.log(res.data);
+      setPackages(res.data);
+    });
+  }, []);
   const {
     register,
     handleSubmit,
@@ -23,56 +39,68 @@ const JoinAsHRManager = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-      const password = data.password;
-      // Combined validation for uppercase and lowercase
-      if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
-        setError(
-          "Password must contain at least one uppercase and one lowercase letter."
-        );
-        return;
-      }
-      if (password.length < 6) {
-        setError("Password must be at least 6 characters long.");
-        return;
-      }
-      setError("");
-  
-      createUserWithEmail(data.email, password)
-        .then(() => {
-          updateProfile(auth.currentUser, {
-            displayName: data.name,
-            photoURL: "Nai",
-          })
-            .then((res) => {
-              // navigate(location?.state ? location.state : "/");
-              const userInfo = {
-                name: data.name,
-                email: data.email,
-                role: "HRManager",
-              };
-              axiosPublic.post("/users", userInfo).then((res) => {
-                console.log(res.data);
-                if (res.data.insertedId) {
-                  alert("data is saved to the database, data of:", res.user.displayName);
-                }
-              });
-              Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: "You have successfully created an account",
-                showConfirmButton: true,
-              });
-              reset();
-              navigate("/");
-            })
-            .catch((error) => {
-              setError(`Failed to update profile: ${error.message}`);
-            });
+    const password = data.password;
+    // Combined validation for uppercase and lowercase
+    if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
+      setError(
+        "Password must contain at least one uppercase and one lowercase letter."
+      );
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+    setError("");
+
+    createUserWithEmail(data.email, password)
+      .then(() => {
+        updateProfile(auth.currentUser, {
+          displayName: data.name,
+          photoURL: "Nai",
         })
-        .catch((error) => {
-          setError(`Failed to register: ${error.message}`);
-        });
-    };
+          .then((res) => {
+            // navigate(location?.state ? location.state : "/");
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+              role: "HRManager",
+              selectedPackage: data.package,
+            };
+            axiosPublic.post("/users",  userInfo ).then((res) => {
+              console.log(res.data);
+              if (res.data.insertedId) {
+                alert(
+                  "data is saved to the database, data of:",
+                  res.user?.displayName
+                );
+              }
+            });
+            Swal.fire({
+              position: "top-center",
+              icon: "success",
+              title: "You have successfully created an account",
+              showConfirmButton: true,
+            });
+            // reset();
+            // navigate("/payment");
+            axiosSecure
+              .post("/create-payment-intent", {
+                price: parseInt(data.package),
+              })
+              .then((res) => {
+                console.log(res.data);
+                setClientSecret(res.data.clientSecret);
+              });
+          })
+          .catch((error) => {
+            setError(`Failed to update profile: ${error.message}`);
+          });
+      })
+      .catch((error) => {
+        setError(`Failed to register: ${error.message}`);
+      });
+  };
 
   // const onSubmit = (data) => {
   //   console.log(data);
@@ -127,28 +155,31 @@ const JoinAsHRManager = () => {
   //     });
   // };
 
-  const handleSignInWithGoogle = () => {
-    signInWithGoogle().then((res) => {
-      const userInfo = {
-        name: res.user.displayName,
-        email: res.user.email,
-        role: "HRManager",
-      };
-      axiosPublic.post("/users", userInfo).then((res) => {
-        console.log(res.data);
-        if (res.data.insertedId) {
-          alert("data is saved to the database, data of:", data.user.displayName);
-        }
-      });
-      console.log(res.user);
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "You have successfully created an account",
-        showConfirmButton: true,
-      });
-    });
-  };
+  // const handleSignInWithGoogle = () => {
+  //   signInWithGoogle().then((res) => {
+  //     const userInfo = {
+  //       name: res.user.displayName,
+  //       email: res.user.email,
+  //       role: "HRManager",
+  //     };
+  //     axiosPublic.post("/users", userInfo).then((res) => {
+  //       console.log(res.data);
+  //       if (res.data.insertedId) {
+  //         alert(
+  //           "data is saved to the database, data of:",
+  //           data.user.displayName
+  //         );
+  //       }
+  //     });
+  //     console.log(res.user);
+  //     Swal.fire({
+  //       position: "top-center",
+  //       icon: "success",
+  //       title: "You have successfully created an account",
+  //       showConfirmButton: true,
+  //     });
+  //   });
+  // };
 
   if (loading) {
     return (
@@ -159,8 +190,9 @@ const JoinAsHRManager = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
+    <div >
+     <div className="flex justify-center items-center min-h-screen bg-gray-100">
+     <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md"
       >
@@ -236,19 +268,7 @@ const JoinAsHRManager = () => {
           />
         </div>
 
-        {/* <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            {...register("password")}
-            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          />
-        </div> */}
+
         <label
           htmlFor="password"
           className="block text-sm font-medium text-gray-700"
@@ -304,9 +324,14 @@ const JoinAsHRManager = () => {
             className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
-            <option value="5">5 Members - $5</option>
+            {packages?.map((pack) => (
+              <option value={pack.price}>
+                {pack.title} - ${pack.price}
+              </option>
+            ))}
+            {/* <option value="5">5 Members - $5</option>
             <option value="10">10 Members - $8</option>
-            <option value="20">20 Members - $15</option>
+            <option value="20">20 Members - $15</option> */}
           </select>
         </div>
         {error && <p className="text-sm text-red-500">{error}</p>}
@@ -317,8 +342,18 @@ const JoinAsHRManager = () => {
           Sign Up
         </button>
       </form>
+     </div>
+      {/* payments */}
+      {clientSecret && (
+        <div className="my-10 w-9/12 mx-auto">
+          <h1 className="text-3xl text-center font-bold">Pay Now</h1>
+          <Elements stripe={stripePromise}>
+            <CheckoutForm clientSecret={clientSecret} />
+          </Elements>
+        </div>
+      )}
       {/* <GoogleLogin></GoogleLogin> */}
-      <div className="mt-6 text-center">
+      {/* <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">Or sign up using</p>
         <button
           onClick={handleSignInWithGoogle}
@@ -326,7 +361,7 @@ const JoinAsHRManager = () => {
         >
           Continue with Google
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

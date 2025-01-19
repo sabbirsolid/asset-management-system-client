@@ -1,23 +1,33 @@
-import React from "react";
+import { useEffect, useState } from "react";
+
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const Packages = () => {
-  const packages = [
-    {
-      title: "5 Employees",
-      price: "$5",
-      description: "Maximum 5 employees for your team.",
-    },
-    {
-      title: "10 Employees",
-      price: "$8",
-      description: "Maximum 10 employees for your team.",
-    },
-    {
-      title: "20 Employees",
-      price: "$15",
-      description: "Maximum 20 employees for your team.",
-    },
-  ];
+  const [packages, setPackages] = useState([]);
+  const axiosPublic = useAxiosPublic();
+  useEffect(() => {
+    axiosPublic.get("/packages").then((res) => {
+      console.log(res.data);
+      setPackages(res.data);
+    });
+  }, []);
+  // const packages = [
+  //   {
+  //     title: "5 Employees",
+  //     price: "$5",
+  //     description: "Maximum 5 employees for your team.",
+  //   },
+  //   {
+  //     title: "10 Employees",
+  //     price: "$8",
+  //     description: "Maximum 10 employees for your team.",
+  //   },
+  //   {
+  //     title: "20 Employees",
+  //     price: "$15",
+  //     description: "Maximum 20 employees for your team.",
+  //   },
+  // ];
 
   return (
     <div className="bg-white py-12 px-6">
