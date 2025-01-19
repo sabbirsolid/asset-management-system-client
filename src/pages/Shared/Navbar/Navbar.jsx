@@ -39,7 +39,7 @@ const Navbar = () => {
       <NavLink to="/hr/addAsset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
       <NavLink to="/hr/allRequests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
       <NavLink to="/employee-list" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
-      <NavLink to="/add-employee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
+      <NavLink to="/hr/addEmployee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
       <NavLink to="/hr/hrProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
         <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />

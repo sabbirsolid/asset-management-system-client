@@ -13,6 +13,7 @@ import AllRequests from "../pages/ForHR/AllRequests";
 import HRProfile from "../pages/ForHR/HRProfile";
 import EmployeeProfile from "../pages/ForEmployee/EmployeeProfile";
 import Payment from "../pages/Payment/Payment";
+import AddEmployee from "../pages/ForHR/AddEmployee";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
         element: (
           <HrRoute>
             <HRProfile></HRProfile>
+          </HrRoute>
+        ),
+      },
+      {
+        path: "hr/addEmployee",
+        element: (
+          <HrRoute>
+            <AddEmployee></AddEmployee>
           </HrRoute>
         ),
       },
