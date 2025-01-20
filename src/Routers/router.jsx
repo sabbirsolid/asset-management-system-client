@@ -14,6 +14,9 @@ import HRProfile from "../pages/ForHR/HRProfile";
 import EmployeeProfile from "../pages/ForEmployee/EmployeeProfile";
 import Payment from "../pages/Payment/Payment";
 import AddEmployee from "../pages/ForHR/AddEmployee";
+import MyEmployeeList from "../pages/ForHR/MyEmployeeList";
+import MyTeamPage from "../pages/ForEmployee/MyTeam";
+import Error from "../pages/Error/Error";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "hr/myEmployeeList",
+        element: (
+          <HrRoute>
+            <MyEmployeeList></MyEmployeeList>
+          </HrRoute>
+        ),
+      },
+      {
         path: "requestForAsset",
         element: <RequestForAnAsset></RequestForAnAsset>,
       },
@@ -89,11 +100,18 @@ const router = createBrowserRouter([
         element: <EmployeeProfile></EmployeeProfile>
       },
       {
+        path: "myTeam",
+        element: <MyTeamPage></MyTeamPage>
+      },
+      {
         path: "payment",
         element: <Payment></Payment>
       },
     ],
-  },
+  },{
+    path: "*",
+    element: <Error></Error>
+  }
 ]);
 
 export default router;

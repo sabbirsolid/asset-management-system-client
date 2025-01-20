@@ -58,10 +58,11 @@ const AddEmployee = () => {
 
   const handleAddOneMember = (id) => {
     axiosSecure
-      .patch(`/users`, {
+      .patch(`/usersAdd`, {
         id: id,
         hrEmail: user.email,
         company: users.hrInfo.company,
+        companyLogo: users.hrInfo.companyLogo
       })
       .then((res) => {
         console.log(res.data);

@@ -9,7 +9,7 @@ const Navbar = () => {
   // const [isHR, isLoading] = useHR();
   // const [isHR] = useHR();
   // const [isEmployee] = useEmployee()
-  const{isHR, isEmployee}= useUserRoles();
+  const{isHR, isEmployee, userObject}= useUserRoles();
   console.log(user);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -23,7 +23,7 @@ const Navbar = () => {
     <>
       <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
       <NavLink to="/myRequestedAssets" className="text-gray-300 hover:text-yellow-400 transition">My Assets</NavLink>
-      <NavLink to="/my-team" className="text-gray-300 hover:text-yellow-400 transition">My Team</NavLink>
+      <NavLink to="/myTeam" className="text-gray-300 hover:text-yellow-400 transition">My Team</NavLink>
       <NavLink to="/requestForAsset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
       <NavLink to="/employeeProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
@@ -38,7 +38,7 @@ const Navbar = () => {
       <NavLink to="/hr/assetList" className="text-gray-300 hover:text-yellow-400 transition">Asset List</NavLink>
       <NavLink to="/hr/addAsset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
       <NavLink to="/hr/allRequests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
-      <NavLink to="/employee-list" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
+      <NavLink to="/hr/myEmployeeList" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
       <NavLink to="/hr/addEmployee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
       <NavLink to="/hr/hrProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
       <div className="flex items-center space-x-3">
@@ -66,7 +66,10 @@ const Navbar = () => {
             <Link href="/" className="text-yellow-400 text-xl font-bold">
               {isEmployee || isHR ? <>
               {
-                isEmployee? 'Employee Logo':'HR Logo'
+                isEmployee? <>
+                <img className='w-[50px]' src={userObject?.companyLogo} alt="" />
+                </>:<>
+                <img className='w-[50px]' src={userObject.companyLogo} alt="" /></>
               }
               </> : 'XYZ'}
             </Link>
