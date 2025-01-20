@@ -6,13 +6,13 @@ import { useForm } from "react-hook-form";
 import { auth } from "../../Firebase/firebase.config";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { updateProfile } from "firebase/auth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
 // payments
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../Payment/CheckOutForm";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-import axios from "axios";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const JoinAsHRManager = () => {
@@ -45,7 +45,7 @@ const JoinAsHRManager = () => {
     console.log(data);
     const password = data.password;
     console.log(data.package);
-    const selectedPack = packages.find(pack => pack._id === data.package);
+    const selectedPack = packages.find((pack) => pack._id === data.package);
     console.log(selectedPack);
     const imageFile = { image: data.companyLogo[0] };
     const response = await axios.post(image_hosting_api, imageFile, {
@@ -83,7 +83,7 @@ const JoinAsHRManager = () => {
               companyLogo: response.data.data.display_url,
               role: "HRManager",
               selectedPackagePrice: selectedPack.price,
-              employeeCount: selectedPack.numberOfEmployees
+              employeeCount: selectedPack.numberOfEmployees,
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               console.log(res.data);
@@ -100,8 +100,6 @@ const JoinAsHRManager = () => {
               title: "You have successfully created an account",
               showConfirmButton: true,
             });
-            // reset();
-            // navigate("/payment");
             axiosSecure
               .post("/create-payment-intent", {
                 price: parseInt(data.package),
@@ -119,85 +117,6 @@ const JoinAsHRManager = () => {
         setError(`Failed to register: ${error.message}`);
       });
   };
-
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   const password = data.password;
-  //   // Combined validation for uppercase and lowercase
-  //   if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
-  //     setError(
-  //       "Password must contain at least one uppercase and one lowercase letter."
-  //     );
-  //     return;
-  //   }
-  //   if (password.length < 6) {
-  //     setError("Password must be at least 6 characters long.");
-  //     return;
-  //   }
-  //   setError("");
-
-  //   createUserWithEmail(data.email, password)
-  //     .then(() => {
-  //       updateProfile(auth.currentUser, {
-  //         displayName: data.name,
-  //         photoURL: "Nai",
-  //       })
-  //         .then(() => {
-  //           navigate("/");
-  //           // navigate(location?.state ? location.state : "/");
-  //           const userInfo = {
-  //             name: data.name,
-  //             email: data.email,
-  //             role: "employee",
-  //           };
-  //           axiosPublic.post("/users", userInfo).then((res) => {
-  //             console.log(res.data);
-  //             if (res.data.insertedId) {
-  //               alert("data is saved to the database, data of:", data.name);
-  //             }
-  //           });
-  //           Swal.fire({
-  //             position: "top-center",
-  //             icon: "success",
-  //             title: "You have successfully created an account",
-  //             showConfirmButton: true,
-  //           });
-  //           reset();
-  //         })
-  //         .catch((error) => {
-  //           setError(`Failed to update profile: ${error.message}`);
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       setError(`Failed to register: ${error.message}`);
-  //     });
-  // };
-
-  // const handleSignInWithGoogle = () => {
-  //   signInWithGoogle().then((res) => {
-  //     const userInfo = {
-  //       name: res.user.displayName,
-  //       email: res.user.email,
-  //       role: "HRManager",
-  //     };
-  //     axiosPublic.post("/users", userInfo).then((res) => {
-  //       console.log(res.data);
-  //       if (res.data.insertedId) {
-  //         alert(
-  //           "data is saved to the database, data of:",
-  //           data.user.displayName
-  //         );
-  //       }
-  //     });
-  //     console.log(res.user);
-  //     Swal.fire({
-  //       position: "top-center",
-  //       icon: "success",
-  //       title: "You have successfully created an account",
-  //       showConfirmButton: true,
-  //     });
-  //   });
-  // };
 
   if (loading) {
     return (
@@ -366,16 +285,7 @@ const JoinAsHRManager = () => {
           </Elements>
         </div>
       )}
-      {/* <GoogleLogin></GoogleLogin> */}
-      {/* <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600">Or sign up using</p>
-        <button
-          onClick={handleSignInWithGoogle}
-          className="mt-2 flex items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-        >
-          Continue with Google
-        </button>
-      </div> */}
+    
     </div>
   );
 };

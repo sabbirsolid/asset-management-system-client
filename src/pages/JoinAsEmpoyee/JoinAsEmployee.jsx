@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
-import GoogleLogin from "../../components/GoogleLogin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const JoinAsEmployee = () => {
@@ -16,12 +15,7 @@ const JoinAsEmployee = () => {
   const [error, setError] = useState("");
   const axiosPublic = useAxiosPublic();
   const [data, setData] = useState({});
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
     const password = data.password;
@@ -52,16 +46,14 @@ const JoinAsEmployee = () => {
               role: "employee",
             };
             axiosPublic.post("/users", userInfo).then((res) => {
-              console.log(res.data);
               if (res.data.insertedId) {
-                alert("data is saved to the database, data of:", data.name);
+                Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "You have successfully created an account",
+                  showConfirmButton: true,
+                });
               }
-            });
-            Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "You have successfully created an account",
-              showConfirmButton: true,
             });
             reset();
             navigate("/");
@@ -91,17 +83,15 @@ const JoinAsEmployee = () => {
         role: "employee",
       };
       axiosPublic.post("/users", userInfo).then((res) => {
-        console.log(res.data);
         if (res.data.insertedId) {
-          alert("data is saved to the database, data of:", data.name);
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "You have successfully created an account",
+            showConfirmButton: true,
+          });
+          navigate("/");
         }
-      });
-      console.log(res.user);
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "You have successfully created an account",
-        showConfirmButton: true,
       });
     });
   };

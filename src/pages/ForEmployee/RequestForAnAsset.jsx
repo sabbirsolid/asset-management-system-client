@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import  { useState, useContext } from "react";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -14,7 +14,7 @@ const RequestForAnAsset = () => {
   const [requestedQuantity, setRequestedQuantity] = useState(1);
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-
+  
   const { data: assets = [] } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
@@ -28,6 +28,7 @@ const RequestForAnAsset = () => {
           sortOrder: order,
           stockStatus,
           assetType,
+          email: user?.email
         },
       });
       return res.data;

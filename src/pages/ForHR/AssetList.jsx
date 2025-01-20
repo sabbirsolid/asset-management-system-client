@@ -17,13 +17,14 @@ const AssetList = () => {
       const { stockStatus, assetType } = filters;
 
       // Send query parameters to the server
-      const res = await axiosSecure.get("/assets", {
+      const res = await axiosSecure.get("/assetsHR", {
         params: {
           search: searchTerm,
           sortField: field,
           sortOrder: order,
           stockStatus,
           assetType,
+          email: user?.email
         },
       });
       return res.data;

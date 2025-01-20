@@ -1,10 +1,12 @@
-import React from "react";
+
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useUserRoles from "../../hooks/useUserRoles";
 
 const AddAsset = () => {
   const axiosSecure = useAxiosSecure();
+
+  const {userObject} = useUserRoles()
   const {
     register,
     handleSubmit,
@@ -17,10 +19,12 @@ const AddAsset = () => {
     const assetData = {
       name: data.name,
       type: data.type,
-      quantity: parseInt(data.quantity)
-        };
-    console.log(assetData);
-    axiosSecure.patch("/assets", data).then((res) => {
+      quantity: parseInt(data.quantity),
+      hrEmail: userObject.email,
+      company: userObject.company,
+    };
+    // console.log(assetData);
+    axiosSecure.patch("/assets", assetData).then((res) => {
       console.log(res.data);
       if (res.data.modifiedCount > 0 || res.data.upsertedId) {
         reset();

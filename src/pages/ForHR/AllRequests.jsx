@@ -22,7 +22,7 @@ const AllRequests = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleApproveRequest = (requestId) => {
+  const handleApproveRequest = (requestId, assetId, requestedQuantity) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You want to approve this request!",
@@ -43,6 +43,11 @@ const AllRequests = () => {
             refetch();
           }
         });
+        axiosSecure
+          .patch(`/assetDecrease`, { assetId, requestedQuantity })
+          .then((res) => {
+            console.log(res.data);
+          });
       }
     });
   };
@@ -109,10 +114,16 @@ const AllRequests = () => {
           {row.status === "pending" && (
             <>
               <button
-                onClick={() => handleApproveRequest(row._id)}
+                onClick={() =>
+                  handleApproveRequest(
+                    row._id,
+                    row.assetId,
+                    row.requestedQuantity
+                  )
+                }
                 className="bg-green-500 text-white px-4 py-2 rounded"
               >
-                Approve
+                Approve ({row.requestedQuantity})
               </button>
               <button
                 onClick={() => handleRejectRequest(row._id)}
