@@ -1,8 +1,9 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const CheckoutForm = ({ clientSecret }) => {
+const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
   const { user } = useContext(AuthContext);
   //   const { userObject, isLoading } = useUserRoles();
 
@@ -10,8 +11,7 @@ const CheckoutForm = ({ clientSecret }) => {
   const elements = useElements();
   const [error, setError] = useState("");
   const [transactionId, setTransactionId] = useState("");
-
-  console.log(clientSecret);
+  const axiosSecure = useAxiosSecure();
 
   //   handle payment
   const handleSubmit = async (event) => {
@@ -51,6 +51,16 @@ const CheckoutForm = ({ clientSecret }) => {
     } else {
       console.log("payment intent", paymentIntent);
       setTransactionId(paymentIntent.id);
+      axiosSecure
+        .patch(`/users/${user.email}`, {
+          newMember: selectedPackage.numberOfEmployees,
+        })
+        .then((res) => {
+          console.log(res.data);
+          if(res.data.modifiedCount > 0){
+            refetch();
+          }
+        });
     }
   };
 

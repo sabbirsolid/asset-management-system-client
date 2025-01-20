@@ -1,40 +1,17 @@
-import { useEffect, useState } from "react";
-
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import usePackages from "../../../hooks/usePackages";
 
 const Packages = () => {
-  const [packages, setPackages] = useState([]);
-  const axiosPublic = useAxiosPublic();
-  useEffect(() => {
-    axiosPublic.get("/packages").then((res) => {
-      console.log(res.data);
-      setPackages(res.data);
-    });
-  }, []);
-  // const packages = [
-  //   {
-  //     title: "5 Employees",
-  //     price: "$5",
-  //     description: "Maximum 5 employees for your team.",
-  //   },
-  //   {
-  //     title: "10 Employees",
-  //     price: "$8",
-  //     description: "Maximum 10 employees for your team.",
-  //   },
-  //   {
-  //     title: "20 Employees",
-  //     price: "$15",
-  //     description: "Maximum 20 employees for your team.",
-  //   },
-  // ];
+  const { packages, isLoading} = usePackages();
 
+  if (isLoading) {
+    return <span className="loading loading-infinity loading-lg"></span>;
+  }
   return (
     <div className="bg-white py-12 px-6">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-6">Our Packages</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {packages.map((pkg, index) => (
+          {packages?.map((pkg, index) => (
             <div
               key={index}
               className="bg-gray-100 p-6 shadow-lg rounded-lg border border-gray-200"

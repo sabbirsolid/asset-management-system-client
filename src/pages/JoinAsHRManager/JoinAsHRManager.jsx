@@ -44,6 +44,9 @@ const JoinAsHRManager = () => {
   const onSubmit = async (data) => {
     console.log(data);
     const password = data.password;
+    console.log(data.package);
+    const selectedPack = packages.find(pack => pack._id === data.package);
+    console.log(selectedPack);
     const imageFile = { image: data.companyLogo[0] };
     const response = await axios.post(image_hosting_api, imageFile, {
       headers: {
@@ -79,7 +82,8 @@ const JoinAsHRManager = () => {
               company: data.companyName,
               companyLogo: response.data.data.display_url,
               role: "HRManager",
-              selectedPackage: data.package,
+              selectedPackagePrice: selectedPack.price,
+              employeeCount: selectedPack.numberOfEmployees
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               console.log(res.data);
@@ -338,13 +342,10 @@ const JoinAsHRManager = () => {
               required
             >
               {packages?.map((pack) => (
-                <option value={pack.price}>
+                <option value={pack._id}>
                   {pack.title} - ${pack.price}
                 </option>
               ))}
-              {/* <option value="5">5 Members - $5</option>
-            <option value="10">10 Members - $8</option>
-            <option value="20">20 Members - $15</option> */}
             </select>
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}

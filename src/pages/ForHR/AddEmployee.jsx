@@ -1,17 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-
+import usePackages from "../../hooks/usePackages";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../Payment/CheckOutForm";
+const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const AddEmployee = () => {
-  //   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [packageLimit, setPackageLimit] = useState(0);
   const [currentCount, setCurrentCount] = useState(0);
+  const [clientSecret, setClientSecret] = useState("");
+  const [showPayment, setShowPayment] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState("")
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-
+  const { packages } = usePackages();
   const {
     data: users,
     isLoading,
@@ -21,16 +27,11 @@ const AddEmployee = () => {
     enabled: !loading && !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${user?.email}`);
-    //   const hrMembers = await axiosSecure.get()
-      //   console.log(res.data);
-      setPackageLimit(parseInt(res.data.hrInfo.selectedPackage));
-      setCurrentCount(res.data.hrMembers.length)
+      setPackageLimit(res.data.hrInfo.employeeCount);
+      setCurrentCount(res.data.hrMembers.length);
       return res.data;
     },
   });
-  console.log(users);
-  //   const {unemployedUsers, hrInfo}  = users;
-  //   console.log(unemployedUsers, hrInfo);
 
   const handleCheckboxChange = (userId) => {
     if (selectedUsers.includes(userId)) {
@@ -48,28 +49,45 @@ const AddEmployee = () => {
       alert(data.message);
       setSelectedUsers([]);
       setCurrentCount(data.updatedCount);
-      setUsers(data.remainingUsers);
+      refetch();
     } catch (error) {
       console.error("Error adding members:", error);
       alert("Failed to add selected members.");
     }
   };
 
-  const handleAddOneMember = (id) =>{
-    axiosSecure.patch(`/users`,{
+  const handleAddOneMember = (id) => {
+    axiosSecure
+      .patch(`/users`, {
         id: id,
         hrEmail: user.email,
-        company: users.hrInfo.company
-
-    })
-    .then(res =>{
+        company: users.hrInfo.company,
+      })
+      .then((res) => {
         console.log(res.data);
-        if(res.data.modifiedCount>0){
-            refetch();
-            alert('Member Added Successfully')
+        if (res.data.modifiedCount > 0) {
+          refetch();
+          alert("Member Added Successfully");
         }
-    })
-  }
+      });
+  };
+
+  const handlePackageSelection = (e) => {
+    const selectedId = e.target.value;
+    console.log("id:", selectedId);
+    const selectedPack = packages.find((pack) => pack._id === selectedId);
+    setSelectedPackage(selectedPack)
+    axiosSecure
+      .post("/create-payment-intent", {
+        price: parseInt(selectedPack.price),
+      })
+      .then((res) => {
+        console.log(res.data);
+        setClientSecret(res.data.clientSecret);
+      });
+
+    setShowPayment(true);
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -79,13 +97,56 @@ const AddEmployee = () => {
       <div className="bg-white shadow-md p-4 rounded-md mb-6">
         <h2 className="text-xl font-semibold mb-2">Package Information</h2>
         <p>Current Employee Count: {currentCount}</p>
-        <p>Package Limit: {packageLimit}</p>
-        <button
-          onClick={() => (window.location.href = "/upgrade-package")}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        <p>Employee Limit: {packageLimit}</p>
+        {/* <select
+          id="package"
+          name="package"
+          onClick={handlePackageSelection}
+          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          Increase Limit
-        </button>
+          <option value="">Select a package</option>
+          {packages?.map((pack) => (
+            <option key={pack._id} value={pack}>
+              {pack.title} - ${pack.price}
+            </option>
+          ))}
+        </select> */}
+        <select
+          id="package"
+          name="package"
+          onChange={handlePackageSelection}
+          className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">Select a package</option>
+          {packages?.map((pack) => (
+            <option key={pack.id} value={pack._id}>
+              {pack.title} - ${pack.price}
+            </option>
+          ))}
+        </select>
+
+        {showPayment && (
+          <div className="mt-4 bg-gray-100 p-4 rounded">
+            <h3 className="text-lg font-semibold">Confirm Payment</h3>
+            <p>
+              Selected Package: {selectedPackage?.title} - $
+              {selectedPackage?.price}
+            </p>
+            {clientSecret && (
+              <div className="my-10 w-9/12 mx-auto">
+                <h1 className="text-3xl text-center font-bold">Pay Now</h1>
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm
+                    clientSecret={clientSecret}
+                    refetch={refetch}
+                    selectedPackage={selectedPackage}
+                  />
+                </Elements>
+              </div>
+            )}
+       
+          </div>
+        )}
       </div>
 
       {/* User List Section */}
@@ -121,8 +182,8 @@ const AddEmployee = () => {
                   <td className="px-4 py-2 text-center">{user.name}</td>
                   <td className="px-4 py-2 text-center">
                     <button
-                      onClick={async () => {
-                        await handleAddOneMember(user._id);
+                      onClick={() => {
+                        handleAddOneMember(user._id);
                       }}
                       className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600"
                     >
