@@ -66,14 +66,38 @@ const MyRequestedAssets = () => {
     
   };
 
-  const handleReturnAsset = async (requestId, assetId) => {
-    try {
-      await axiosSecure.patch(`/requests/return`, { requestId, assetId });
-      alert("Asset returned successfully!");
-      refetch();
-    } catch (error) {
-      console.error(error.response?.data?.error || "Failed to return asset");
-    }
+  const handleReturnAsset = async (requestId, assetId, requestedQuantity) => {
+     Swal.fire({
+          title: "Are you sure?",
+          text: "You want to approve this request!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, approve it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axiosSecure.patch('/assetReturn', {assetId, requestedQuantity}).then((res) => {
+              if (res.data.modifiedCount > 0) {
+                Swal.fire({
+                  title: "Approved!",
+                  text: "Items Returned",
+                  icon: "success",
+                });
+                
+              }
+            });
+            axiosSecure
+              .patch(`/requestReturned`, { requestId })
+              .then((res) => {
+                if(res.data.modifiedCount>0){
+                  refetch();
+                }
+              });
+          }
+        });
+   
+
   };
 
   const styles = StyleSheet.create({
@@ -156,10 +180,10 @@ const MyRequestedAssets = () => {
               </PDFDownloadLink>
               {row.type === "returnable" && (
                 <button
-                  onClick={() => handleReturnAsset(row._id, row.assetId)}
-                  disabled={row.requestStatus === "Returned"}
+                  onClick={() => handleReturnAsset(row._id, row.assetId, row.requestedQuantity)}
+                  disabled={row.status === "returned"}
                   className={`${
-                    row.requestStatus === "Returned"
+                    row.status === "returned"
                       ? "bg-gray-500 cursor-not-allowed"
                       : "bg-green-500"
                   } text-white px-4 py-2 rounded`}
