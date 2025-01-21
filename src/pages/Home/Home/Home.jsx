@@ -7,6 +7,11 @@ import { AuthContext } from "../../../Providers/AuthProvider";
 import PendingRequests from "./EmployeePage/PendingRequests";
 import MonthlyRequests from "./EmployeePage/MonthlyRequests";
 import NoAffiliationMessage from "./NoAffiliationMessage";
+import PendingRequestsHR from "./HRPages/PendingRequestsHR";
+import TopRequestedItem from "./HRPages/TopRequestedItem";
+import PieChart from "./HRPages/PieChart";
+import LimitedStockItems from "./HRPages/LimitedStockItems";
+import EmployeeStatistics from "./HRPages/EmployeeStatistics";
 
 const Home = () => {
   const { isHR, isEmployee } = useUserRoles();
@@ -22,7 +27,11 @@ const Home = () => {
       )}
       {isHR && !isEmployee && (
         <>
-          <PendingRequests />
+          <PendingRequestsHR></PendingRequestsHR>
+          <TopRequestedItem></TopRequestedItem>
+          <PieChart></PieChart>
+          <LimitedStockItems></LimitedStockItems>
+          <EmployeeStatistics></EmployeeStatistics>
         </>
       )}
       {!isHR && !isEmployee && (

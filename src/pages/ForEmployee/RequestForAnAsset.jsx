@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useUserRoles from "../../hooks/useUserRoles";
 
 const RequestForAnAsset = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +15,7 @@ const RequestForAnAsset = () => {
   const [requestedQuantity, setRequestedQuantity] = useState(1);
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const {userObject} = useUserRoles();
   
   const { data: assets = [] } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
@@ -79,7 +81,8 @@ const RequestForAnAsset = () => {
       notes: additionalNotes,
       requestDate: new Date(),
       requestedQuantity,
-      status: 'pending'
+      status: 'pending',
+      hrEmail: userObject?.hrEmail
     };
     console.log(requestData);
 

@@ -44,6 +44,10 @@ const AssetList = () => {
     setSortConfig({ field: column.selector, order: sortDirection });
   };
   
+  const handleDelete = (column, sortDirection) => {
+    setSortConfig({ field: column.selector, order: sortDirection });
+  };
+  
 
   const columns = [
     {

@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const AllRequests = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
-
+const {user} = useContext(AuthContext);
   const { data: requests = [], refetch } = useQuery({
-    queryKey: ["allRequests", searchTerm],
+    queryKey: ["allRequests",user?.email, searchTerm],
     queryFn: async () => {
-      const res = await axiosSecure.get("/allRequests", {
-        params: { search: searchTerm },
+      const res = await axiosSecure.get("/allRequestsHR", {
+        params: { search: searchTerm, email: user?.email },
       });
       return res.data;
     },

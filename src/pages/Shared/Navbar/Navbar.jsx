@@ -10,12 +10,12 @@ const Navbar = () => {
   // const [isHR] = useHR();
   // const [isEmployee] = useEmployee()
   const{isHR, isEmployee, userObject}= useUserRoles();
-  console.log(user);
+  // console.log(user);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-  console.log('isHR:',isHR);
-  console.log('isEmployee:',isEmployee);
+  // console.log('isHR:',isHR);
+  // console.log('isEmployee:',isEmployee);
   // const isEmployee = false;
   // const isHR = false;
 
