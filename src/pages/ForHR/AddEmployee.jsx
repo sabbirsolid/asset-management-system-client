@@ -7,6 +7,8 @@ import usePackages from "../../hooks/usePackages";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../Payment/CheckOutForm";
+import useUserRoles from "../../hooks/useUserRoles";
+import Swal from "sweetalert2";
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const AddEmployee = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -14,10 +16,11 @@ const AddEmployee = () => {
   const [currentCount, setCurrentCount] = useState(0);
   const [clientSecret, setClientSecret] = useState("");
   const [showPayment, setShowPayment] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState("")
+  const [selectedPackage, setSelectedPackage] = useState("");
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { packages } = usePackages();
+  const { userObject } = useUserRoles();
   const {
     data: users,
     isLoading,
@@ -41,19 +44,24 @@ const AddEmployee = () => {
     }
   };
 
-  const handleAddSelectedMembers = async () => {
-    try {
-      const { data } = await axios.post("/api/hr/add-members", {
-        userIds: selectedUsers,
-      });
-      alert(data.message);
-      setSelectedUsers([]);
-      setCurrentCount(data.updatedCount);
-      refetch();
-    } catch (error) {
-      console.error("Error adding members:", error);
-      alert("Failed to add selected members.");
-    }
+  const handleAddSelectedMembers = () => {
+    const updateInfo = {
+      userIds: selectedUsers,
+      hrEmail: user.email,
+      company: userObject.company,
+      companyLogo: userObject.companyLogo,
+    };
+    axiosSecure.patch("/multipleUsersAdd", updateInfo).then((res) => {
+      if (res.data[0].modifiedCount > 0) {
+        Swal.fire({
+          title: "Users Added Successfully",
+          icon: "success",
+          draggable: true,
+        });
+        setSelectedUsers([]);
+        refetch();
+      }
+    });
   };
 
   const handleAddOneMember = (id) => {
@@ -62,10 +70,10 @@ const AddEmployee = () => {
         id: id,
         hrEmail: user.email,
         company: users.hrInfo.company,
-        companyLogo: users.hrInfo.companyLogo
+        companyLogo: users.hrInfo.companyLogo,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.modifiedCount > 0) {
           refetch();
           alert("Member Added Successfully");
@@ -77,7 +85,7 @@ const AddEmployee = () => {
     const selectedId = e.target.value;
     console.log("id:", selectedId);
     const selectedPack = packages.find((pack) => pack._id === selectedId);
-    setSelectedPackage(selectedPack)
+    setSelectedPackage(selectedPack);
     axiosSecure
       .post("/create-payment-intent", {
         price: parseInt(selectedPack.price),
@@ -145,7 +153,6 @@ const AddEmployee = () => {
                 </Elements>
               </div>
             )}
-       
           </div>
         )}
       </div>
