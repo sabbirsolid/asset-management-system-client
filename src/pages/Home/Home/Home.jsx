@@ -12,10 +12,10 @@ import TopRequestedItem from "./HRPages/TopRequestedItem";
 import PieChart from "./HRPages/PieChart";
 import LimitedStockItems from "./HRPages/LimitedStockItems";
 import EmployeeStatistics from "./HRPages/EmployeeStatistics";
+import RequestsPerEmployee from "./HRPages/RequestsPerEmployee";
 
 const Home = () => {
   const { isHR, isEmployee } = useUserRoles();
-  const { user } = useContext(AuthContext);
 
   return (
     <div>
@@ -32,6 +32,8 @@ const Home = () => {
           <PieChart></PieChart>
           <LimitedStockItems></LimitedStockItems>
           <EmployeeStatistics></EmployeeStatistics>
+
+          <RequestsPerEmployee></RequestsPerEmployee>
         </>
       )}
       {!isHR && !isEmployee && (
