@@ -1,4 +1,4 @@
-import  { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -15,8 +15,8 @@ const RequestForAnAsset = () => {
   const [requestedQuantity, setRequestedQuantity] = useState(1);
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  const {userObject} = useUserRoles();
-  
+  const { userObject } = useUserRoles();
+
   const { data: assets = [] } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
@@ -30,20 +30,25 @@ const RequestForAnAsset = () => {
           sortOrder: order,
           stockStatus,
           assetType,
-          email: user?.email
+          email: user?.email,
         },
       });
       return res.data;
     },
   });
-  const { data: requests = [],refetch} = useQuery({
-    queryKey: [user?.email, "requests"],
+  const { data: requests = [], refetch } = useQuery({
+    queryKey: [user?.email, "filteredRequests"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/requests");
+      const res = await axiosSecure.get("/filteredRequests", {
+        params: {
+          email: user.email,
+          hrEmail: userObject.hrEmail,
+        },
+      });
       return res.data;
     },
   });
- console.log(requests);
+   console.log(requests);
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -81,14 +86,14 @@ const RequestForAnAsset = () => {
       notes: additionalNotes,
       requestDate: new Date(),
       requestedQuantity,
-      status: 'pending',
-      hrEmail: userObject?.hrEmail
+      status: "pending",
+      hrEmail: userObject?.hrEmail,
     };
-    console.log(requestData);
+    // console.log(requestData);
 
     try {
       const res = await axiosSecure.post("/requests", requestData);
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.insertedId) {
         alert("Request submitted successfully!");
         closeModal();
@@ -121,11 +126,13 @@ const RequestForAnAsset = () => {
           className={`${
             row.quantity > 0 ? "bg-blue-500" : "bg-gray-500 cursor-not-allowed"
           } text-white px-4 py-2 rounded`}
-          disabled={(row.quantity === 0) || (requests?.find(req =>  req.name == row.name))}
+          disabled={
+            row.quantity === 0 || requests?.find((req) => req.name == row.name)
+          }
         >
-         {
-            requests?.find(req =>  req.name == row.name) ? "Requested" :"Request"
-         }
+          {requests?.find((req) => req.name == row.name)
+            ? "Requested"
+            : "Request"}
         </button>
       ),
     },

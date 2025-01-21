@@ -12,10 +12,12 @@ import {
   StyleSheet,
 } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
+import useUserRoles from "../../hooks/useUserRoles";
 
 const MyRequestedAssets = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const {userObject} = useUserRoles();
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({ requestStatus: "", assetType: "" });
 
@@ -24,7 +26,7 @@ const MyRequestedAssets = () => {
     queryFn: async () => {
       const { requestStatus, assetType } = filters;
       const res = await axiosSecure.get("/filteredRequests", {
-        params: { search: searchTerm, requestStatus, assetType },
+        params: { search: searchTerm, requestStatus, assetType, email:user.email, hrEmail: userObject.hrEmail },
       });
       return res.data;
     },

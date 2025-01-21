@@ -20,11 +20,11 @@ const PendingRequestsHR = () => {
   });
 
   return (
-    <div className=" shadow-sm rounded-lg p-4 max-w-4xl mx-auto mt-8">
+    <div className=" shadow-sm rounded-lg p-4 max-w-6xl mx-auto mt-8">
       <h2 className="text-xl font-semibold  mb-4 text-center">
         Pending Requests
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {pendingRequests?.map((request) => (
           <div
             key={request._id}
