@@ -89,16 +89,12 @@ const RequestForAnAsset = () => {
       hrEmail: userObject?.hrEmail,
     };
 
-    try {
-      const res = await axiosSecure.post("/requests", requestData);
+    const res = await axiosSecure.post("/requests", requestData);
 
-      if (res.data.insertedId) {
-        alert("Request submitted successfully!");
-        closeModal();
-        refetch();
-      }
-    } catch (error) {
-      console.error(error.response?.data?.error || "Failed to submit request");
+    if (res.data.insertedId) {
+      alert("Request submitted successfully!");
+      closeModal();
+      refetch();
     }
   };
 

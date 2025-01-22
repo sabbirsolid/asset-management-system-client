@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -73,7 +72,7 @@ const AddEmployee = () => {
         companyLogo: users.hrInfo.companyLogo,
       })
       .then((res) => {
-        // console.log(res.data);
+   
         if (res.data.modifiedCount > 0) {
           refetch();
           alert("Member Added Successfully");
@@ -83,7 +82,6 @@ const AddEmployee = () => {
 
   const handlePackageSelection = (e) => {
     const selectedId = e.target.value;
-    console.log("id:", selectedId);
     const selectedPack = packages.find((pack) => pack._id === selectedId);
     setSelectedPackage(selectedPack);
     axiosSecure
@@ -91,7 +89,7 @@ const AddEmployee = () => {
         price: parseInt(selectedPack.price),
       })
       .then((res) => {
-        console.log(res.data);
+    
         setClientSecret(res.data.clientSecret);
       });
 

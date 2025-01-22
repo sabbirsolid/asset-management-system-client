@@ -1,12 +1,11 @@
 import React from "react";
-import { MdErrorOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const Error = () => {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate("/"); // Redirect to the home page
+    navigate("/");
   };
 
   return (

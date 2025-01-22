@@ -2,11 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const NoticeBoard = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  const { data: notices = [], isLoading } = useQuery({
+  const {
+    data: notices = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["notices", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -14,6 +19,35 @@ const NoticeBoard = () => {
       return res.data;
     },
   });
+
+  const handleDelete = (id) => {
+    const notice = {
+      id: id,
+      email: user?.email,
+    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+      axiosSecure.delete(`/deleteNotice/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The member has been removed.",
+              icon: "success",
+            });
+            refetch();
+          }
+        });
+      }
+    });
+  };
 
   if (isLoading) {
     return <p>Loading notices...</p>;
@@ -37,7 +71,12 @@ const NoticeBoard = () => {
               <p className="text-sm  mt-2">
                 Posted on: {new Date(notice.postedDate).toLocaleString()}
               </p>
-              <button className="btn btn-sm">Delete</button>
+              <button
+                onClick={() => handleDelete(notice._id)}
+                className="btn btn-sm"
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>

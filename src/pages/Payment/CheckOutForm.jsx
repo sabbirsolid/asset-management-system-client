@@ -29,9 +29,9 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
     });
     if (error) {
       setError(error.message);
-      console.log("payment error", error);
+      
     } else {
-      console.log("Payment Method:", paymentMethod);
+   
       setError("");
     }
     // confirm payment
@@ -46,17 +46,17 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
         },
       });
     if (confirmError) {
-      console.log(confirmError);
+    
       setError(confirmError);
     } else {
-      console.log("payment intent", paymentIntent);
+     
       setTransactionId(paymentIntent.id);
       axiosSecure
         .patch(`/users/${user.email}`, {
           newMember: selectedPackage.numberOfEmployees,
         })
         .then((res) => {
-          console.log(res.data);
+
           if(res.data.modifiedCount > 0){
             refetch();
           }

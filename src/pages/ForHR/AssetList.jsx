@@ -169,8 +169,8 @@ const AssetList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({ stockStatus: "", assetType: "" });
   const [sortConfig, setSortConfig] = useState({ field: "name", order: "asc" });
-  const [selectedAsset, setSelectedAsset] = useState(null); // Track selected asset for update
-  const [updatedAssetData, setUpdatedAssetData] = useState({}); // Track updated data
+  const [selectedAsset, setSelectedAsset] = useState(null); 
+  const [updatedAssetData, setUpdatedAssetData] = useState({}); 
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
@@ -232,8 +232,8 @@ const AssetList = () => {
   };
 
   const handleUpdate = (asset) => {
-    setSelectedAsset(asset); // Set selected asset for updating
-    setUpdatedAssetData({ ...asset }); // Initialize the updated data with the selected asset
+    setSelectedAsset(asset);
+    setUpdatedAssetData({ ...asset });
   };
 
   const handleUpdateSubmit = async () => {
@@ -286,16 +286,16 @@ const AssetList = () => {
     {
       name: "Actions",
       cell: (row) => (
-        <div className="flex gap-2">
+        <div className="lg:flex justify-center items-center my-2 gap-2">
           <button
             onClick={() => handleUpdate(row)}
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
+            className="bg-yellow-500 text-white px-4 py-2 my-1 rounded"
           >
             Update
           </button>
           <button
             onClick={() => handleDelete(row._id)}
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-4 py-2 my-1 rounded"
           >
             Delete
           </button>
@@ -314,16 +314,16 @@ const AssetList = () => {
         placeholder="Search by name"
         value={searchTerm}
         onChange={handleSearch}
-        className="border p-2 rounded w-full mb-4"
+        className="border p-2 rounded  mb-4"
       />
 
       {/* Filter Section */}
-      <div className="flex gap-4 mb-4">
+      <div className="lg:flex gap-4 mb-4">
         <select
           name="stockStatus"
           value={filters.stockStatus}
           onChange={handleFilterChange}
-          className="border p-2 rounded"
+          className="border mt-2 p-2 rounded"
         >
           <option value="">Filter by Stock Status</option>
           <option value="available">Available</option>
@@ -334,7 +334,7 @@ const AssetList = () => {
           name="assetType"
           value={filters.assetType}
           onChange={handleFilterChange}
-          className="border p-2 rounded"
+          className="border mt-2 p-2 rounded"
         >
           <option value="">Filter by Asset Type</option>
           <option value="returnable">Returnable</option>

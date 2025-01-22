@@ -47,7 +47,6 @@ const {user} = useContext(AuthContext);
         axiosSecure
           .patch(`/assetDecrease`, { assetId, requestedQuantity })
           .then((res) => {
-            console.log(res.data);
           });
       }
     });

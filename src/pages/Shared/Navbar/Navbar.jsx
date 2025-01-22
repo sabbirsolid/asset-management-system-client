@@ -1,59 +1,158 @@
-import { useContext, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { AuthContext } from '../../../Providers/AuthProvider';
-import useUserRoles from '../../../hooks/useUserRoles';
+import { useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Providers/AuthProvider";
+import useUserRoles from "../../../hooks/useUserRoles";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const {user, logOut} = useContext(AuthContext);
-  // const [isHR, isLoading] = useHR();
-  // const [isHR] = useHR();
-  // const [isEmployee] = useEmployee()
-  const{isHR, isEmployee, userObject}= useUserRoles();
-  // console.log(user);
+  const { user, logOut } = useContext(AuthContext);
+
+  const { isHR, isEmployee, userObject } = useUserRoles();
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-  // console.log('isHR:',isHR);
-  // console.log('isEmployee:',isEmployee);
-  // const isEmployee = false;
-  // const isHR = false;
 
   const links = isEmployee ? (
     <>
-      <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/myRequestedAssets" className="text-gray-300 hover:text-yellow-400 transition">My Assets</NavLink>
-      <NavLink to="/myTeam" className="text-gray-300 hover:text-yellow-400 transition">My Team</NavLink>
-      <NavLink to="/requestForAsset" className="text-gray-300 hover:text-yellow-400 transition">Request for an Asset</NavLink>
-      <NavLink to="/employeeProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
+      <NavLink
+        to="/"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        to="/myRequestedAssets"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        My Assets
+      </NavLink>
+      <NavLink
+        to="/myTeam"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        My Team
+      </NavLink>
+      <NavLink
+        to="/requestForAsset"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Request for an Asset
+      </NavLink>
+      <NavLink
+        to="/employeeProfile"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Profile
+      </NavLink>
       <div className="flex items-center space-x-3">
-        <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
+        <img
+          src={user?.photoURL}
+          alt="Profile"
+          className="w-8 h-8 rounded-full"
+        />
         <span>{user?.displayName}</span>
-        <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>
+        <button
+          onClick={logOut}
+          className="text-red-400 hover:text-red-600 transition"
+        >
+          Logout
+        </button>
       </div>
     </>
   ) : isHR ? (
     <>
-      <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/hr/assetList" className="text-gray-300 hover:text-yellow-400 transition">Asset List</NavLink>
-      <NavLink to="/hr/addAsset" className="text-gray-300 hover:text-yellow-400 transition">Add an Asset</NavLink>
-      <NavLink to="/hr/allRequests" className="text-gray-300 hover:text-yellow-400 transition">All Requests</NavLink>
-      <NavLink to="/hr/myEmployeeList" className="text-gray-300 hover:text-yellow-400 transition">My Employee List</NavLink>
-      <NavLink to="/hr/addEmployee" className="text-gray-300 hover:text-yellow-400 transition">Add an Employee</NavLink>
-      <NavLink to="/hr/hrProfile" className="text-gray-300 hover:text-yellow-400 transition">Profile</NavLink>
+      <NavLink
+        to="/"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        to="/hr/assetList"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Asset List
+      </NavLink>
+      <NavLink
+        to="/hr/addAsset"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Add an Asset
+      </NavLink>
+      <NavLink
+        to="/hr/allRequests"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        All Requests
+      </NavLink>
+      <NavLink
+        to="/hr/myEmployeeList"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        My Employee List
+      </NavLink>
+      <NavLink
+        to="/hr/addEmployee"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Add an Employee
+      </NavLink>
+      <NavLink
+        to="/hr/hrProfile"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Profile
+      </NavLink>
       <div className="flex items-center space-x-3">
-        <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
+        <img
+          src={user?.photoURL}
+          alt="Profile"
+          className="w-8 h-8 rounded-full"
+        />
         <span>{user?.displayName}</span>
-        <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>
+        <button
+          onClick={logOut}
+          className="text-red-400 hover:text-red-600 transition"
+        >
+          Logout
+        </button>
       </div>
     </>
   ) : (
     <>
-      <NavLink to="/" className="text-gray-300 hover:text-yellow-400 transition">Home</NavLink>
-      <NavLink to="/joinAsEmployee" className="text-gray-300 hover:text-yellow-400 transition">Join as Employee</NavLink>
-      <NavLink to="/joinAsHRManager" className="text-gray-300 hover:text-yellow-400 transition">Join as HR Manager</NavLink>
-      <NavLink to="/login" className="text-gray-300 hover:text-yellow-400 transition">Login</NavLink>
-      {user && <button onClick={logOut} className="text-red-400 hover:text-red-600 transition">Logout</button>}
+      <NavLink
+        to="/"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Home
+      </NavLink>
+      <NavLink
+        to="/joinAsEmployee"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Join as Employee
+      </NavLink>
+      <NavLink
+        to="/joinAsHRManager"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Join as HR Manager
+      </NavLink>
+      <NavLink
+        to="/login"
+        className="text-gray-300 hover:text-yellow-400 transition"
+      >
+        Login
+      </NavLink>
+      {user && (
+        <button
+          onClick={logOut}
+          className="text-red-400 hover:text-red-600 transition"
+        >
+          Logout
+        </button>
+      )}
     </>
   );
 
@@ -64,14 +163,29 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-yellow-400 text-xl font-bold">
-              {isEmployee || isHR ? <>
-              {
-                isEmployee? <>
-                <img className='w-[50px]' src={userObject?.companyLogo} alt="" />
-                </>:<>
-                <img className='w-[50px]' src={userObject.companyLogo} alt="" /></>
-              }
-              </> : 'XYZ'}
+              {isEmployee || isHR ? (
+                <>
+                  {isEmployee ? (
+                    <>
+                      <img
+                        className="w-[50px]"
+                        src={userObject?.companyLogo}
+                        alt=""
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        className="w-[50px]"
+                        src={userObject.companyLogo}
+                        alt=""
+                      />
+                    </>
+                  )}
+                </>
+              ) : (
+                "XYZ"
+              )}
             </Link>
           </div>
 
@@ -107,7 +221,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
+      <div className={`${isMobileMenuOpen ? "block" : "hidden"} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 flex flex-col">{links}</div>
       </div>
     </nav>

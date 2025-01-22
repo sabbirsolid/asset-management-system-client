@@ -7,8 +7,6 @@ import DataTable from "react-data-table-component";
 const MyTeamPage = () => {
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-
-  // Fetch team members
   const { data: team, isLoading } = useQuery({
     queryKey: ["team", user?.email],
     enabled: !loading,
@@ -22,7 +20,6 @@ const MyTeamPage = () => {
     return <div>Loading team members...</div>;
   }
 
-  // Define columns for the DataTable
   const columns = [
     {
       name: "Image",

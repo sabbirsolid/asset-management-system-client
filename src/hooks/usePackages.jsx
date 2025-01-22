@@ -5,7 +5,6 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const usePackages = () => {
   const { loading } = useContext(AuthContext);
-  // const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
   const {
     data: packages,
@@ -19,7 +18,7 @@ const usePackages = () => {
       return res.data;
     },
   });
-  console.log(packages);
+ 
   return { packages, isLoading, refetch };
 };
 

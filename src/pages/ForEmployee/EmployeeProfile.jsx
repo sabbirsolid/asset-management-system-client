@@ -8,12 +8,12 @@ const EmployeeProfile = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { userObject, isLoading, refetch } = useUserRoles();
-  //   console.log(userObject);
+  
 
   const handleUpdate = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
-    // console.log(name);
+  
     axiosSecure.patch(`/employeeProfile/${user.email}`, {name} ).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire({

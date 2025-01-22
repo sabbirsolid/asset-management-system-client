@@ -30,7 +30,6 @@ const JoinAsHRManager = () => {
   const [packages, setPackages] = useState([]);
   useEffect(() => {
     axiosPublic.get("/packages").then((res) => {
-      console.log(res.data);
       setPackages(res.data);
     });
   }, []);
@@ -42,18 +41,14 @@ const JoinAsHRManager = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     const password = data.password;
-    console.log(data.package);
     const selectedPack = packages.find((pack) => pack._id === data.package);
-    console.log(selectedPack);
     const imageFile = { image: data.companyLogo[0] };
     const response = await axios.post(image_hosting_api, imageFile, {
       headers: {
         "content-type": "multipart/form-data",
       },
     });
-    console.log(response.data.data.display_url);
     // Combined validation for uppercase and lowercase
     if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
       setError(
@@ -86,7 +81,7 @@ const JoinAsHRManager = () => {
               employeeCount: selectedPack.numberOfEmployees,
             };
             axiosPublic.post("/users", userInfo).then((res) => {
-              console.log(res.data);
+       
               if (res.data.insertedId) {
                 alert(
                   "data is saved to the database, data of:",
@@ -105,7 +100,7 @@ const JoinAsHRManager = () => {
                 price: parseInt(data.package),
               })
               .then((res) => {
-                console.log(res.data);
+           
                 setClientSecret(res.data.clientSecret);
               });
           })
@@ -285,7 +280,6 @@ const JoinAsHRManager = () => {
           </Elements>
         </div>
       )}
-    
     </div>
   );
 };
