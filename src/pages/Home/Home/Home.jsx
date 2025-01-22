@@ -13,6 +13,8 @@ import PieChart from "./HRPages/PieChart";
 import LimitedStockItems from "./HRPages/LimitedStockItems";
 import EmployeeStatistics from "./HRPages/EmployeeStatistics";
 import RequestsPerEmployee from "./HRPages/RequestsPerEmployee";
+import NoticeBoard from "./HRPages/NoticeBoard";
+import NoticeBoardEmp from "./EmployeePage/noticeBoardEmp";
 
 const Home = () => {
   const { isHR, isEmployee } = useUserRoles();
@@ -23,6 +25,7 @@ const Home = () => {
         <>
           <PendingRequests />
           <MonthlyRequests />
+          <NoticeBoardEmp></NoticeBoardEmp>
         </>
       )}
       {isHR && !isEmployee && (
@@ -32,8 +35,8 @@ const Home = () => {
           <PieChart></PieChart>
           <LimitedStockItems></LimitedStockItems>
           <EmployeeStatistics></EmployeeStatistics>
-
           <RequestsPerEmployee></RequestsPerEmployee>
+          <NoticeBoard></NoticeBoard>
         </>
       )}
       {!isHR && !isEmployee && (

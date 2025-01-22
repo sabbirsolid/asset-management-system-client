@@ -48,7 +48,6 @@ const RequestForAnAsset = () => {
       return res.data;
     },
   });
-   console.log(requests);
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -89,11 +88,10 @@ const RequestForAnAsset = () => {
       status: "pending",
       hrEmail: userObject?.hrEmail,
     };
-    // console.log(requestData);
 
     try {
       const res = await axiosSecure.post("/requests", requestData);
-      // console.log(res.data);
+
       if (res.data.insertedId) {
         alert("Request submitted successfully!");
         closeModal();
