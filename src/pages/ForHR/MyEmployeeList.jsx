@@ -82,7 +82,7 @@ const MyEmployeeList = () => {
         <img
           src={row.imageUrl}
           alt={row.name}
-          className="w-10 h-10 rounded-full mx-auto"
+          className="w-10 h-10 rounded-full mx-auto shadow-sm"
         />
       ),
       sortable: false,
@@ -111,7 +111,7 @@ const MyEmployeeList = () => {
       cell: (row) => (
         <button
           onClick={() => handleRemoveMember(row._id)}
-          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition duration-200"
         >
           Remove
         </button>
@@ -121,18 +121,18 @@ const MyEmployeeList = () => {
   ];
 
   return (
-    <div className="p-6  min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Employee List</h1>
-      <div className=" shadow-md p-4 rounded-md">
-        <h2 className="text-xl font-semibold mb-4">Team Members</h2>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl text-center font-bold mb-6 text-gray-800">Employee List</h1>
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-xl font-semibold mb-4 text-gray-700">Team Members</h2>
         <button
           onClick={() => setModalOpen(true)}
-          className="btn my-2 btn-sm text-end bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className="mb-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition duration-200"
         >
           Add a Notice
         </button>
         {team?.length === 0 ? (
-          <p>No team members found.</p>
+          <p className="text-gray-600">No team members found.</p>
         ) : (
           <DataTable
             columns={columns}
@@ -143,14 +143,15 @@ const MyEmployeeList = () => {
             customStyles={{
               headCells: {
                 style: {
-                  // backgroundColor: "#f4f4f5",
                   fontWeight: "bold",
                   textAlign: "center",
+                  color: "#374151",
                 },
               },
               cells: {
                 style: {
                   textAlign: "center",
+                  color: "#4B5563",
                 },
               },
             }}
@@ -161,38 +162,38 @@ const MyEmployeeList = () => {
       {/* Modal for Adding a Notice */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Add a Notice</h2>
-            <label className="block mb-2 font-semibold">Title:</label>
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Add a Notice</h2>
+            <label className="block mb-2 font-medium text-gray-700">Title:</label>
             <input
               type="text"
               value={notice.title}
               onChange={(e) =>
                 setNotice((prev) => ({ ...prev, title: e.target.value }))
               }
-              className="w-full p-2 mb-4 border rounded-md"
+              className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter notice title"
             />
-            <label className="block mb-2 font-semibold">Description:</label>
+            <label className="block mb-2 font-medium text-gray-700">Description:</label>
             <textarea
               value={notice.description}
               onChange={(e) =>
                 setNotice((prev) => ({ ...prev, description: e.target.value }))
               }
-              className="w-full p-2 mb-4 border rounded-md"
+              className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               rows="4"
               placeholder="Enter notice description"
             ></textarea>
             <div className="flex justify-end gap-2">
               <button
                 onClick={handleNoticeSubmit}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-200"
               >
                 Submit
               </button>
               <button
                 onClick={() => setModalOpen(false)}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition duration-200"
               >
                 Cancel
               </button>

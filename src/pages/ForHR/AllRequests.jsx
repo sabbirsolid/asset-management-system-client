@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -8,9 +8,9 @@ import { AuthContext } from "../../Providers/AuthProvider";
 const AllRequests = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
-const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { data: requests = [], refetch } = useQuery({
-    queryKey: ["allRequests",user?.email, searchTerm],
+    queryKey: ["allRequests", user?.email, searchTerm],
     queryFn: async () => {
       const res = await axiosSecure.get("/allRequestsHR", {
         params: { search: searchTerm, email: user?.email },
@@ -46,8 +46,7 @@ const {user} = useContext(AuthContext);
         });
         axiosSecure
           .patch(`/assetDecrease`, { assetId, requestedQuantity })
-          .then((res) => {
-          });
+          .then((res) => {});
       }
     });
   };
@@ -110,7 +109,7 @@ const {user} = useContext(AuthContext);
     {
       name: "Actions",
       cell: (row) => (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap lg:gap-2 gap-1 my-2">
           {row.status === "pending" && (
             <>
               <button
@@ -121,13 +120,13 @@ const {user} = useContext(AuthContext);
                     row.requestedQuantity
                   )
                 }
-                className="bg-green-500 text-white px-4 py-2 rounded"
+                className="bg-green-500 btn btn-sm text-white w-full "
               >
                 Approve ({row.requestedQuantity})
               </button>
               <button
                 onClick={() => handleRejectRequest(row._id)}
-                className="bg-red-500 text-white px-4 py-2 rounded"
+                className="bg-red-500 btn btn-sm text-white w-full "
               >
                 Reject
               </button>

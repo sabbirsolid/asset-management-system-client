@@ -28,7 +28,7 @@ const HRProfile = () => {
 
   return (
     <form onSubmit={handleUpdate} className="p-6 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-4">HR Profile</h1>
+      <h1 className="text-2xl text-center font-bold mb-4">HR Profile</h1>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1" htmlFor="fullName">
           Full Name
