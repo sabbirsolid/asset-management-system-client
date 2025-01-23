@@ -25,7 +25,7 @@ const HRStatistics = () => {
 
   return (
     <div className="shadow-md rounded-lg p-6 md:p-8">
-      <h2 className="text-2xl font-semibold text-center mb-6">HR Statistics</h2>
+      <h2 className="text-2xl font-bold text-center text-blue-600">HR Statistics</h2>
       <div className="mb-6">
         <h3 className="text-lg font-medium text-center mb-4">Total Employees</h3>
         <p className="text-3xl font-bold text-center text-blue-600">{users.length}</p>
@@ -33,21 +33,21 @@ const HRStatistics = () => {
       <div>
         <h3 className="text-lg font-medium text-center mb-4">Request Status</h3>
         <div className="grid grid-cols-3 gap-4">
-          <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-            <h4 className="text-sm font-medium">Approved</h4>
-            <p className="text-2xl font-semibold text-green-500">
+          <div className="p-4 border rounded-lg  shadow-sm bg-gray-50">
+            <h4 className="text-sm text-center font-medium">Approved</h4>
+            <p className="text-2xl text-center font-semibold text-green-500">
               {statusCounts.approved || 0}
             </p>
           </div>
           <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-            <h4 className="text-sm font-medium">Pending</h4>
-            <p className="text-2xl font-semibold text-yellow-500">
+            <h4 className="text-sm text-center font-medium">Pending</h4>
+            <p className="text-2xl text-center font-semibold text-yellow-500">
               {statusCounts.pending || 0}
             </p>
           </div>
           <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
-            <h4 className="text-sm font-medium">Rejected</h4>
-            <p className="text-2xl font-semibold text-red-500">
+            <h4 className="text-sm text-center font-medium">Rejected</h4>
+            <p className="text-2xl text-center font-semibold text-red-500">
               {statusCounts.rejected || 0}
             </p>
           </div>

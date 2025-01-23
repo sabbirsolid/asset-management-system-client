@@ -1,3 +1,85 @@
+// import { useQuery } from "@tanstack/react-query";
+// import { useContext } from "react";
+// import { AuthContext } from "../../../../Providers/AuthProvider";
+// import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+// import Swal from "sweetalert2";
+
+// const NoticeBoard = () => {
+//   const { user } = useContext(AuthContext);
+//   const axiosSecure = useAxiosSecure();
+//   const {
+//     data: notices = [],
+//     isLoading,
+//     refetch,
+//   } = useQuery({
+//     queryKey: ["notices", user?.email],
+//     enabled: !!user?.email,
+//     queryFn: async () => {
+//       const res = await axiosSecure.get(`/addNotice/${user?.email}`);
+//       return res.data;
+//     },
+//   });
+
+//   const handleDelete = (id) => {
+//     Swal.fire({
+//       title: "Are you sure?",
+//       text: "You won't be able to revert this!",
+//       icon: "warning",
+//       showCancelButton: true,
+//       confirmButtonColor: "#3085d6",
+//       cancelButtonColor: "#d33",
+//       confirmButtonText: "Yes, delete it!",
+//     }).then((result) => {
+//       if (result.isConfirmed) {
+//         axiosSecure.delete(`/deleteNotice/${id}`).then((res) => {
+//           if (res.data.deletedCount > 0) {
+//             Swal.fire({
+//               title: "Deleted!",
+//               text: "The member has been removed.",
+//               icon: "success",
+//             });
+//             refetch();
+//           }
+//         });
+//       }
+//     });
+//   };
+
+//   return (
+//     <div className="p-6 my-10">
+//       <h1 className="text-2xl font-bold text-center text-blue-600">
+//         Your Posted Notices
+//       </h1>
+//       {notices.length === 0 ? (
+//         <p>No notices available.</p>
+//       ) : (
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//           {notices.map((notice) => (
+//             <div key={notice._id} className=" shadow-md p-4 rounded-md border">
+//               <h2 className="text-xl font-semibold text-blue-600">
+//                 {notice.title}
+//               </h2>
+//               <p className="">{notice.description}</p>
+//               <p className="text-sm  mt-2">
+//                 Posted on: {new Date(notice.postedDate).toLocaleString()}
+//               </p>
+//               <button
+//                 onClick={() => handleDelete(notice._id)}
+//                 className="btn btn-sm"
+//               >
+//                 Delete
+//               </button>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default NoticeBoard;
+
+
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
@@ -21,10 +103,6 @@ const NoticeBoard = () => {
   });
 
   const handleDelete = (id) => {
-    const notice = {
-      id: id,
-      email: user?.email,
-    };
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -35,7 +113,7 @@ const NoticeBoard = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-      axiosSecure.delete(`/deleteNotice/${id}`).then((res) => {
+        axiosSecure.delete(`/deleteNotice/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             Swal.fire({
               title: "Deleted!",
@@ -49,31 +127,32 @@ const NoticeBoard = () => {
     });
   };
 
-  if (isLoading) {
-    return <p>Loading notices...</p>;
-  }
-
   return (
-    <div className="p-6 my-10">
-      <h1 className="text-2xl text-center font-bold mb-4">
+    <div className="p-6 my-10 bg-gray-50 rounded-lg shadow-lg">
+      <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
         Your Posted Notices
       </h1>
       {notices.length === 0 ? (
-        <p>No notices available.</p>
+        <p className="text-center text-gray-600 font-medium">
+          No notices available.
+        </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {notices.map((notice) => (
-            <div key={notice._id} className=" shadow-md p-4 rounded-md border">
-              <h2 className="text-xl font-semibold text-blue-600">
+            <div
+              key={notice._id}
+              className="shadow-md p-5 rounded-md border border-gray-200 bg-white hover:shadow-lg transition-shadow duration-300"
+            >
+              <h2 className="text-xl font-semibold text-blue-700 mb-2">
                 {notice.title}
               </h2>
-              <p className="">{notice.description}</p>
-              <p className="text-sm  mt-2">
+              <p className="text-gray-700 mb-4">{notice.description}</p>
+              <p className="text-sm text-gray-500 mb-4">
                 Posted on: {new Date(notice.postedDate).toLocaleString()}
               </p>
               <button
                 onClick={() => handleDelete(notice._id)}
-                className="btn btn-sm"
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200"
               >
                 Delete
               </button>

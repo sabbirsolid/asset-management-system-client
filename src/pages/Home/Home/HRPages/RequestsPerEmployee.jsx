@@ -17,17 +17,11 @@ const RequestsPerEmployee = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-20">
-        <p className="animate-pulse text-lg font-medium">Loading requests...</p>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="p-6 md:p-8 lg:p-12 shadow-lg rounded-lg max-w-full md:max-w-2xl lg:max-w-3xl mx-auto ">
-      <h2 className="text-3xl font-bold mb-6 text-center">
+      <h2 className="text-2xl font-bold text-center text-blue-600">
         Requests Per Employee
       </h2>
       <ul className="divide-y divide-gray-200">

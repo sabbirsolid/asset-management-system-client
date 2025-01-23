@@ -20,7 +20,7 @@ const LimitedStockItems = () => {
 
   return (
     <div className=" shadow-lg rounded-lg p-4 md:p-6">
-      <h2 className="text-xl md:text-2xl text-center font-semibold mb-4 ">
+      <h2 className="text-2xl font-bold text-center text-blue-600 ">
         Limited Stock Items
       </h2>
       {lowStockAssets.length > 0 ? (
@@ -55,3 +55,5 @@ const LimitedStockItems = () => {
 };
 
 export default LimitedStockItems;
+
+
