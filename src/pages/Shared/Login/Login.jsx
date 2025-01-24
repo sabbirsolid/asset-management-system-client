@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,24 +17,31 @@ function Login() {
   const onSubmit = (data) => {
     logIn(data.email, data.password)
       .then((res) => {
-        alert("login successful");
-        navigate("/");
+        if (res.user) {
+          Swal.fire({
+            title: "Login Successful!",
+            icon: "success",
+            draggable: true,
+          });
+          navigate("/");
+        }
       })
-      .catch((err) => {
-      
-      });
+      .catch((err) => {});
   };
 
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
       .then((res) => {
-     
-        alert("login successful");
-        navigate("/");
+        if (res.user) {
+          Swal.fire({
+            title: "Login Successful!",
+            icon: "success",
+            draggable: true,
+          });
+          navigate("/");
+        }
       })
-      .catch((err) => {
-  
-      });
+      .catch((err) => {});
   };
 
   return (

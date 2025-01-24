@@ -14,7 +14,6 @@ const JoinAsEmployee = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const axiosPublic = useAxiosPublic();
-  const [data, setData] = useState({});
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {

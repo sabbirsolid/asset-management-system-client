@@ -18,7 +18,7 @@ const PaymentHistory = () => {
       return response.data;
     },
   });
-  console.log(payments);
+
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-6">

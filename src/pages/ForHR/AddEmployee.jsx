@@ -93,7 +93,6 @@ const AddEmployee = () => {
       .then((res) => {
         setClientSecret(res.data.clientSecret);
       });
-
     setShowPayment(true);
   };
 

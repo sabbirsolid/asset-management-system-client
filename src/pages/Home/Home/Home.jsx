@@ -77,10 +77,9 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
 
-
 const Home = () => {
   const { isHR, isEmployee } = useUserRoles();
-  const {  loading } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -111,7 +110,7 @@ const Home = () => {
 
   return (
     <div className="space-y-8">
-       <Helmet>
+      <Helmet>
         <title>Home | AMS</title>
       </Helmet>
       {/* Tailwind CSS to add spacing between sections */}
@@ -177,10 +176,10 @@ const Home = () => {
             <Banner />
           </motion.div>
           <motion.div variants={childVariants}>
-            <About />
+            <Packages />
           </motion.div>
           <motion.div variants={childVariants}>
-            <Packages />
+            <About />
           </motion.div>
           <motion.div variants={childVariants}>
             <NoAffiliationMessage />

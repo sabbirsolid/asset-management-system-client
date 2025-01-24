@@ -1,81 +1,65 @@
-import React, { useState } from "react";
+import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import img1 from "../../../assets/1.png";
+import img2 from "../../../assets/2.webp";
 
 const Banner = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   const slides = [
     {
       id: 1,
-      image: "https://via.placeholder.com/800x400?text=Join+as+HR+Manager",
+      image: img1,
       buttonText: "Join as HR Manager",
-      buttonAction: () => {
-        <Link to="/joinAsHRManager">Join as HR Manager</Link>
-      },
+      buttonLink: "/joinAsHRManager",
     },
     {
       id: 2,
-      image: "https://via.placeholder.com/800x400?text=Join+as+Employee",
+      image: img2,
       buttonText: "Join as Employee",
-      buttonAction: () => {
-        <Link to="/joinAsHRManager">Join as Employee</Link>
-      },
+      buttonLink: "/joinAsEmployee",
     },
   ];
 
-  const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
   return (
     <div className="relative w-full max-w-4xl mx-auto mt-8">
-      <div className="relative overflow-hidden">
-        <div
-          className="w-full h-64 flex items-center justify-center bg-gray-200"
-          style={{
-            backgroundImage: `url(${slides[currentSlide].image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <button
-            onClick={slides[currentSlide].buttonAction}
-            className="bg-blue-500 text-white py-2 px-4 rounded shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-            {slides[currentSlide].buttonText}
-          </button>
-        </div>
-      </div>
-
-      {/* Controls */}
-      <button
-        onClick={handlePrevSlide}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      <Carousel
+        showThumbs={false}
+        showStatus={false}
+        infiniteLoop
+        autoPlay
+        interval={5000}
+        transitionTime={500}
+        emulateTouch
+        dynamicHeight
+        swipeable
+        className="rounded-lg overflow-hidden"
       >
-        &#9664;
-      </button>
-      <button
-        onClick={handleNextSlide}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        &#9654;
-      </button>
-
-      {/* Indicators */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
-          <div
-            key={index}
-            className={`w-3 h-3 rounded-full ${
-              index === currentSlide ? "bg-blue-500" : "bg-gray-400"
-            }`}
-          ></div>
+        {slides.map((slide) => (
+          <div key={slide.id} className="relative">
+            <img
+              src={slide.image}
+              alt={slide.buttonText}
+              className="object-cover w-full h-64"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Link
+                to={slide.buttonLink}
+                className="relative inline-block text-lg group"
+                style={{ bottom: "10%", position: "absolute" }} // Move the button downward
+              >
+                <span className="relative z-10 block px-4 py-2 overflow-hidden font-medium leading-tight text-white transition-colors duration-300 ease-out rounded-lg shadow-lg group-hover:text-yellow-600">
+                  <span className="absolute inset-0 w-full h-full px-6 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
+                  <span className="absolute inset-0 w-full h-full px-6 py-3 transition-all duration-300 ease-out transform translate-x-full group-hover:-translate-x-0 group-hover:scale-105 bg-white"></span>
+                  <span className="relative">{slide.buttonText}</span>
+                </span>
+                <span
+                  className="absolute bottom-0 right-0 block w-8 h-8 transition-transform duration-300 ease-out transform translate-x-3 translate-y-3 bg-white rounded-full group-hover:translate-x-0 group-hover:translate-y-0"
+                ></span>
+              </Link>
+            </div>
+          </div>
         ))}
-      </div>
+      </Carousel>
     </div>
   );
 };

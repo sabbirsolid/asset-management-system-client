@@ -7,7 +7,7 @@ import useUserRoles from "../../hooks/useUserRoles";
 
 const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
   const { user } = useContext(AuthContext);
-    const { userObject} = useUserRoles();
+  const { userObject } = useUserRoles();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -31,9 +31,7 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
     });
     if (error) {
       setError(error.message);
-      
     } else {
-   
       setError("");
     }
     // confirm payment
@@ -48,10 +46,8 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
         },
       });
     if (confirmError) {
-    
       setError(confirmError);
     } else {
-     
       setTransactionId(paymentIntent.id);
       const paymentInfo = {
         hrEmail: userObject.email,
@@ -60,25 +56,25 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
         paidAmount: selectedPackage.price,
         currency: selectedPackage.currency,
         paymentTime: new Date(),
-      }
-      axiosSecure.post('/payments', paymentInfo)
-      .then(res =>{
-        console.log(res.data);
-      })
-      axiosSecure
-        .patch(`/users/${user.email}`, {
-          newMember: selectedPackage.numberOfEmployees,
-        })
-        .then((res) => {
-          if(res.data.modifiedCount > 0){
-            Swal.fire({
-              title: "Member Limit Increased Successfully!",
-              icon: "success",
-              draggable: true
+      };
+      axiosSecure.post("/payments", paymentInfo).then((res) => {
+        if (res.data.insertedId) {
+          axiosSecure
+            .patch(`/users/${user.email}`, {
+              newMember: selectedPackage.numberOfEmployees,
+            })
+            .then((response) => {
+              if (response.data.modifiedCount > 0) {
+                Swal.fire({
+                  title: "Member Limit Increased Successfully!",
+                  icon: "success",
+                  draggable: true,
+                });
+                refetch();
+              }
             });
-            refetch();
-          }
-        });
+        }
+      });
     }
   };
 

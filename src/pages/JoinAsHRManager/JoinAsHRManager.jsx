@@ -1,33 +1,25 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form";
-import { auth } from "../../Firebase/firebase.config";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
-import { updateProfile } from "firebase/auth";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import axios from "axios";
-
 // payments
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "../Payment/CheckOutForm";
+import CheckOutFormJoin from "../Payment/CheckOutFormJoin";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const JoinAsHRManager = () => {
-  const { createUserWithEmail, loading, signInWithGoogle, setPrice } =
-    useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
-  const navigate = useNavigate();
   const [error, setError] = useState("");
-  const axiosPublic = useAxiosPublic();
-  const axiosSecure = useAxiosSecure();
   const imgbb_key = import.meta.env.VITE_IMGBB_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imgbb_key}`;
 
   const [packages, setPackages] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
+  const axiosPublic = useAxiosPublic();
   useEffect(() => {
     axiosPublic.get("/packages").then((res) => {
       setPackages(res.data);
@@ -36,12 +28,12 @@ const JoinAsHRManager = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     const password = data.password;
+
     const selectedPack = packages.find((pack) => pack._id === data.package);
     const imageFile = { image: data.companyLogo[0] };
     const response = await axios.post(image_hosting_api, imageFile, {
@@ -61,55 +53,25 @@ const JoinAsHRManager = () => {
       return;
     }
     setError("");
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+      password: password,
+      company: data.companyName,
+      companyLogo: response.data.data.display_url,
+      role: "HRManager",
+      selectedPackagePrice: selectedPack.price,
+      employeeCount: selectedPack.numberOfEmployees,
+    };
 
-    createUserWithEmail(data.email, password)
-      .then(() => {
-        updateProfile(auth.currentUser, {
-          displayName: data.name,
-          photoURL: "Nai",
-        })
-          .then((res) => {
-            // navigate(location?.state ? location.state : "/");
+    setUserInfo(userInfo);
 
-            const userInfo = {
-              name: data.name,
-              email: data.email,
-              company: data.companyName,
-              companyLogo: response.data.data.display_url,
-              role: "HRManager",
-              selectedPackagePrice: selectedPack.price,
-              employeeCount: selectedPack.numberOfEmployees,
-            };
-            axiosPublic.post("/users", userInfo).then((res) => {
-       
-              if (res.data.insertedId) {
-                alert(
-                  "data is saved to the database, data of:",
-                  res.user?.displayName
-                );
-              }
-            });
-            Swal.fire({
-              position: "top-center",
-              icon: "success",
-              title: "You have successfully created an account",
-              showConfirmButton: true,
-            });
-            axiosSecure
-              .post("/create-payment-intent", {
-                price: parseInt(data.package),
-              })
-              .then((res) => {
-           
-                setClientSecret(res.data.clientSecret);
-              });
-          })
-          .catch((error) => {
-            setError(`Failed to update profile: ${error.message}`);
-          });
+    axiosPublic
+      .post("/create-payment-intent", {
+        price: parseInt(data.package),
       })
-      .catch((error) => {
-        setError(`Failed to register: ${error.message}`);
+      .then((res) => {
+        setClientSecret(res.data.clientSecret);
       });
   };
 
@@ -123,7 +85,7 @@ const JoinAsHRManager = () => {
 
   return (
     <div>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex justify-center items-center py-10 min-h-screen bg-gray-100">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md"
@@ -276,7 +238,7 @@ const JoinAsHRManager = () => {
         <div className="my-10 w-9/12 mx-auto">
           <h1 className="text-3xl text-center font-bold">Pay Now</h1>
           <Elements stripe={stripePromise}>
-            <CheckoutForm clientSecret={clientSecret} />
+            <CheckOutFormJoin clientSecret={clientSecret} userInfo={userInfo} />
           </Elements>
         </div>
       )}

@@ -1,7 +1,8 @@
 import axios from "axios";
 // https://asset-management-system-server-drab.vercel.app
+// https://asset-management-system-server-drab.vercel.app
 const axiosPublic = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://asset-management-system-server-drab.vercel.app",
 });
 const useAxiosPublic = () => {
   return axiosPublic;
