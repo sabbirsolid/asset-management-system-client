@@ -5,6 +5,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useUserRoles from "../../hooks/useUserRoles";
+import { Helmet } from "react-helmet-async";
 
 const MyEmployeeList = () => {
   const { user, loading } = useContext(AuthContext);
@@ -14,7 +15,11 @@ const MyEmployeeList = () => {
   const { userObject } = useUserRoles();
 
   // Fetch team members
-  const { data: team, refetch } = useQuery({
+  const {
+    data: team,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["team", user?.email],
     enabled: !loading,
     queryFn: async () => {
@@ -120,11 +125,26 @@ const MyEmployeeList = () => {
     },
   ];
 
+  if (loading || isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl text-center font-bold mb-6 text-gray-800">Employee List</h1>
+       <Helmet>
+        <title>My Employee List | AMS</title>
+      </Helmet>
+      <h1 className="text-2xl text-center font-bold mb-6 text-gray-800">
+        Employee List
+      </h1>
       <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-700">Team Members</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-700">
+          Team Members
+        </h2>
         <button
           onClick={() => setModalOpen(true)}
           className="mb-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition duration-200"
@@ -163,8 +183,12 @@ const MyEmployeeList = () => {
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Add a Notice</h2>
-            <label className="block mb-2 font-medium text-gray-700">Title:</label>
+            <h2 className="text-xl font-bold mb-4 text-gray-800">
+              Add a Notice
+            </h2>
+            <label className="block mb-2 font-medium text-gray-700">
+              Title:
+            </label>
             <input
               type="text"
               value={notice.title}
@@ -174,7 +198,9 @@ const MyEmployeeList = () => {
               className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter notice title"
             />
-            <label className="block mb-2 font-medium text-gray-700">Description:</label>
+            <label className="block mb-2 font-medium text-gray-700">
+              Description:
+            </label>
             <textarea
               value={notice.description}
               onChange={(e) =>

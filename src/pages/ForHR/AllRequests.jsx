@@ -4,12 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { Helmet } from "react-helmet-async";
 
 const AllRequests = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
-  const { user } = useContext(AuthContext);
-  const { data: requests = [], refetch } = useQuery({
+  const { user, loading } = useContext(AuthContext);
+  const { data: requests = [], refetch, isLoading } = useQuery({
     queryKey: ["allRequests", user?.email, searchTerm],
     queryFn: async () => {
       const res = await axiosSecure.get("/allRequestsHR", {
@@ -137,9 +138,20 @@ const AllRequests = () => {
     },
   ];
 
+  if (loading || isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">All Requests</h1>
+       <Helmet>
+        <title>All Requests | AMS</title>
+      </Helmet>
+      <h1 className="text-2xl text-center font-bold mb-4">All Requests</h1>
 
       {/* Search Section */}
       <input

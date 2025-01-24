@@ -3,9 +3,10 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useUserRoles from "../../hooks/useUserRoles";
+import { Helmet } from "react-helmet-async";
 
 const HRProfile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { userObject, isLoading, refetch } = useUserRoles();
 
@@ -17,7 +18,7 @@ const HRProfile = () => {
     axiosSecure.patch(`/hrProfile/${user.email}`, {name} ).then((res) => {
       if (res.data.modifiedCount > 0) {
         Swal.fire({
-          title: "Profile Updated Successfully",
+          title: "Profile data updated successfully!",
           icon: "success",
           draggable: true,
         });
@@ -26,8 +27,19 @@ const HRProfile = () => {
     });
   };
 
+  if (loading || isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleUpdate} className="p-6 max-w-lg mx-auto">
+       <Helmet>
+        <title>HR Profile | AMS</title>
+      </Helmet>
       <h1 className="text-2xl text-center font-bold mb-4">HR Profile</h1>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1" htmlFor="fullName">

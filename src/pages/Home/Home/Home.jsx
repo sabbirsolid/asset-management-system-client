@@ -72,9 +72,15 @@ import NoticeBoard from "./HRPages/NoticeBoard";
 import NoticeBoardEmp from "./EmployeePage/noticeBoardEmp";
 import HRStatistics from "./HRPages/HRStatistics";
 import { motion } from "framer-motion";
+import PaymentHistory from "./HRPages/PaymentHistory";
+import { useContext } from "react";
+import { AuthContext } from "../../../Providers/AuthProvider";
+import { Helmet } from "react-helmet-async";
+
 
 const Home = () => {
   const { isHR, isEmployee } = useUserRoles();
+  const {  loading } = useContext(AuthContext);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -95,9 +101,19 @@ const Home = () => {
     },
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      {" "}
+       <Helmet>
+        <title>Home | AMS</title>
+      </Helmet>
       {/* Tailwind CSS to add spacing between sections */}
       {isEmployee && (
         <motion.div
@@ -144,6 +160,9 @@ const Home = () => {
           </motion.div>
           <motion.div variants={childVariants}>
             <NoticeBoard />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <PaymentHistory />
           </motion.div>
         </motion.div>
       )}
