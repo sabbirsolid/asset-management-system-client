@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserRoles from "../../hooks/useUserRoles";
+import { Helmet } from "react-helmet-async";
 
 const RequestForAnAsset = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,11 +14,11 @@ const RequestForAnAsset = () => {
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
   const [requestedQuantity, setRequestedQuantity] = useState(1);
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { userObject } = useUserRoles();
 
-  const { data: assets = [] } = useQuery({
+  const { data: assets = [] , isLoading} = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
       const { field, order } = sortConfig;
@@ -132,9 +133,20 @@ const RequestForAnAsset = () => {
     },
   ];
 
+  if (loading || isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Asset List</h1>
+      <Helmet>
+        <title>Request for an Asset | AMS</title>
+      </Helmet>
+      <h1 className="text-2xl text-center font-bold mb-4">Request for an Asset</h1>
 
       {/* Search Section */}
       <input

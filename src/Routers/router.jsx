@@ -12,11 +12,11 @@ import MyRequests from "../pages/ForEmployee/MyRequestedAssets";
 import AllRequests from "../pages/ForHR/AllRequests";
 import HRProfile from "../pages/ForHR/HRProfile";
 import EmployeeProfile from "../pages/ForEmployee/EmployeeProfile";
-import Payment from "../pages/Payment/Payment";
 import AddEmployee from "../pages/ForHR/AddEmployee";
 import MyEmployeeList from "../pages/ForHR/MyEmployeeList";
 import MyTeamPage from "../pages/ForEmployee/MyTeam";
 import Error from "../pages/Error/Error";
+import EmployeeRoute from "./EmployeeRoute";
 
 const router = createBrowserRouter([
   {
@@ -89,29 +89,42 @@ const router = createBrowserRouter([
       },
       {
         path: "requestForAsset",
-        element: <RequestForAnAsset></RequestForAnAsset>,
+        element: (
+          <EmployeeRoute>
+            <RequestForAnAsset></RequestForAnAsset>,
+          </EmployeeRoute>
+        ),
       },
       {
         path: "myRequestedAssets",
-        element: <MyRequests></MyRequests>,
+        element: (
+          <EmployeeRoute>
+            <MyRequests></MyRequests>
+          </EmployeeRoute>
+        ),
       },
       {
         path: "employeeProfile",
-        element: <EmployeeProfile></EmployeeProfile>
+        element: (
+          <EmployeeRoute>
+            <EmployeeProfile></EmployeeProfile>
+          </EmployeeRoute>
+        ),
       },
       {
         path: "myTeam",
-        element: <MyTeamPage></MyTeamPage>
-      },
-      {
-        path: "payment",
-        element: <Payment></Payment>
+        element: (
+          <EmployeeRoute>
+            <MyTeamPage></MyTeamPage>
+          </EmployeeRoute>
+        ),
       },
     ],
-  },{
+  },
+  {
     path: "*",
-    element: <Error></Error>
-  }
+    element: <Error></Error>,
+  },
 ]);
 
 export default router;

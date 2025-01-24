@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../Payment/CheckOutForm";
 import useUserRoles from "../../hooks/useUserRoles";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 
@@ -23,7 +24,7 @@ const AddEmployee = () => {
   const { packages } = usePackages();
   const { userObject } = useUserRoles();
 
-  const { data: users, refetch } = useQuery({
+  const { data: users, refetch, isLoading } = useQuery({
     queryKey: [user?.email, "users"],
     enabled: !loading && !!user?.email,
     queryFn: async () => {
@@ -33,6 +34,8 @@ const AddEmployee = () => {
       return res.data;
     },
   });
+
+ 
 
   const handleCheckboxChange = (userId) => {
     setSelectedUsers((prev) =>
@@ -94,8 +97,19 @@ const AddEmployee = () => {
     setShowPayment(true);
   };
 
+  if (loading || isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+       <Helmet>
+        <title>Add Member | AMS</title>
+      </Helmet>
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">Add Employee</h1>
 
       {/* Package Section */}
@@ -111,7 +125,7 @@ const AddEmployee = () => {
           onChange={handlePackageSelection}
           className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
-          <option value="">Select a package</option>
+          <option value="">Select a package to increase limit</option>
           {packages?.map((pack) => (
             <option key={pack._id} value={pack._id}>
               {pack.title} - ${pack.price}

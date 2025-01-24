@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserRoles from "../../hooks/useUserRoles";
+import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const AddAsset = () => {
   const axiosSecure = useAxiosSecure();
@@ -25,14 +27,21 @@ const AddAsset = () => {
     axiosSecure.patch("/assets", assetData).then((res) => {
       if (res.data.modifiedCount > 0 || res.data.upsertedId) {
         reset();
-        alert("Asset added successfully!");
+        Swal.fire({
+          title: "Asset added successfully!",
+          icon: "success",
+          draggable: true
+        });
       }
     });
   };
 
   return (
     <div className="p-6 lg:w-2/5 mx-auto ">
-      <h1 className="text-2xl font-bold mb-4">Add an Asset</h1>
+       <Helmet>
+        <title>Add Asset | AMS</title>
+      </Helmet>
+      <h1 className="text-2xl text-center font-bold mb-4">Add an Asset</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="">
           <label className="block mb-1 font-bold">Product Name</label>

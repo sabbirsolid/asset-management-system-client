@@ -6,12 +6,14 @@ const GoogleLogin = () => {
   const { signInWithGoogle } = useContext(AuthContext);
   const handleSignInWithGoogle = () => {
     signInWithGoogle().then((res) => {
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "You have successfully created an account",
-        showConfirmButton: true,
-      });
+      if (res?.user) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "You have successfully Logged in!",
+          showConfirmButton: true,
+        });
+      }
     });
   };
 

@@ -2,10 +2,12 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import useUserRoles from "../../hooks/useUserRoles";
 
 const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
   const { user } = useContext(AuthContext);
-  //   const { userObject, isLoading } = useUserRoles();
+    const { userObject} = useUserRoles();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -51,13 +53,29 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
     } else {
      
       setTransactionId(paymentIntent.id);
+      const paymentInfo = {
+        hrEmail: userObject.email,
+        name: userObject.name,
+        transactionId: paymentIntent.id,
+        paidAmount: selectedPackage.price,
+        currency: selectedPackage.currency,
+        paymentTime: new Date(),
+      }
+      axiosSecure.post('/payments', paymentInfo)
+      .then(res =>{
+        console.log(res.data);
+      })
       axiosSecure
         .patch(`/users/${user.email}`, {
           newMember: selectedPackage.numberOfEmployees,
         })
         .then((res) => {
-
           if(res.data.modifiedCount > 0){
+            Swal.fire({
+              title: "Member Limit Increased Successfully!",
+              icon: "success",
+              draggable: true
+            });
             refetch();
           }
         });

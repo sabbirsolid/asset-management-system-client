@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import DataTable from "react-data-table-component";
+import { Helmet } from "react-helmet-async";
 
 const MyTeamPage = () => {
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  const { data: team, isLoading } = useQuery({
+  const { data: team,isLoading } = useQuery({
     queryKey: ["team", user?.email],
     enabled: !loading,
     queryFn: async () => {
@@ -16,9 +17,14 @@ const MyTeamPage = () => {
     },
   });
 
-  if (isLoading) {
-    return <div>Loading team members...</div>;
+  if ( isLoading) {
+    return (
+      <div className="flex items-center min-h-screen justify-center h-full">
+        <span className="loading loading-infinity loading-lg"></span>
+      </div>
+    );
   }
+
 
   const columns = [
     {
@@ -63,8 +69,10 @@ const MyTeamPage = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">My Team</h1>
-
+      <Helmet>
+        <title>My Team | AMS</title>
+      </Helmet>
+      <h1 className="text-2xl text-center font-bold mb-4">My Team</h1>
       <div className="bg-white shadow-md p-4 rounded-md">
         <DataTable
           title="Team Members"
