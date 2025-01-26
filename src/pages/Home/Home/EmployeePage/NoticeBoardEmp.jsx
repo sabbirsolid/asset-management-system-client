@@ -17,17 +17,15 @@ const NoticeBoardEmp = () => {
     },
   });
 
-  if (isLoading) {
-    return <p>Loading notices...</p>;
-  }
+ 
 
   return (
     <div className="p-6 my-10">
       <h1 className="text-2xl text-center font-bold mb-4">
-        Your Posted Notices
+        Notices for You
       </h1>
       {notices.length === 0 ? (
-        <p>No notices available.</p>
+        <p className="text-center">No notices available.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {notices.map((notice) => (

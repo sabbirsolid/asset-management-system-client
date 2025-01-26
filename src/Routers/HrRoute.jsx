@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../Providers/AuthProvider";
 import useUserRoles from "../hooks/useUserRoles";
+import { Navigate } from "react-router-dom";
 
 const HrRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
@@ -16,6 +17,7 @@ const HrRoute = ({ children }) => {
   if (user && isHR) {
     return <div>{children}</div>;
   }
+  return <Navigate to="/login" replace />;
 };
 
 export default HrRoute;

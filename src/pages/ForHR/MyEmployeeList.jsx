@@ -85,7 +85,7 @@ const MyEmployeeList = () => {
       name: "Image",
       selector: (row) => (
         <img
-          src={row.imageUrl}
+          src={row.photoURL}
           alt={row.name}
           className="w-10 h-10 rounded-full mx-auto shadow-sm"
         />
@@ -135,7 +135,7 @@ const MyEmployeeList = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-       <Helmet>
+      <Helmet>
         <title>My Employee List | AMS</title>
       </Helmet>
       <h1 className="text-2xl text-center font-bold mb-6 text-gray-800">

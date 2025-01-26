@@ -6,6 +6,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CheckOutFormJoin = ({ clientSecret, userInfo }) => {
   const stripe = useStripe();
@@ -70,7 +71,6 @@ const CheckOutFormJoin = ({ clientSecret, userInfo }) => {
                     paymentTime: new Date(),
                   };
                   axiosPublic.post("/payments", paymentInfo).then((resu) => {
-                
                     if (resu.data.insertedId) {
                       Swal.fire({
                         title: "User Created Successfully!",

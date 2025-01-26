@@ -24,7 +24,11 @@ const AddEmployee = () => {
   const { packages } = usePackages();
   const { userObject } = useUserRoles();
 
-  const { data: users, refetch, isLoading } = useQuery({
+  const {
+    data: users,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: [user?.email, "users"],
     enabled: !loading && !!user?.email,
     queryFn: async () => {
@@ -35,11 +39,11 @@ const AddEmployee = () => {
     },
   });
 
- 
-
   const handleCheckboxChange = (userId) => {
     setSelectedUsers((prev) =>
-      prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId]
     );
   };
 
@@ -106,17 +110,26 @@ const AddEmployee = () => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-       <Helmet>
+      <Helmet>
         <title>Add Member | AMS</title>
       </Helmet>
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">Add Employee</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
+        Add Employee
+      </h1>
 
       {/* Package Section */}
       <div className="bg-white shadow rounded-lg p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Package Information</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Package Information
+        </h2>
         <div className="flex flex-col md:flex-row md:justify-between mb-4">
-          <p className="text-gray-600">Current Employees: <span className="font-medium">{currentCount}</span></p>
-          <p className="text-gray-600">Employee Limit: <span className="font-medium">{packageLimit}</span></p>
+          <p className="text-gray-600">
+            Current Employees:{" "}
+            <span className="font-medium">{currentCount}</span>
+          </p>
+          <p className="text-gray-600">
+            Employee Limit: <span className="font-medium">{packageLimit}</span>
+          </p>
         </div>
         <select
           id="package"
@@ -134,9 +147,12 @@ const AddEmployee = () => {
 
         {showPayment && (
           <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
-            <h3 className="text-lg font-semibold mb-2 text-gray-700">Confirm Payment</h3>
+            <h3 className="text-lg font-semibold mb-2 text-gray-700">
+              Confirm Payment
+            </h3>
             <p className="text-gray-600 mb-4">
-              Selected Package: <span className="font-medium">{selectedPackage?.title}</span> - ${" "}
+              Selected Package:{" "}
+              <span className="font-medium">{selectedPackage?.title}</span> - ${" "}
               <span className="font-medium">{selectedPackage?.price}</span>
             </p>
             {clientSecret && (
@@ -156,15 +172,25 @@ const AddEmployee = () => {
 
       {/* User List Section */}
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-700">Available Users</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+          Available Users
+        </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-200 rounded-lg">
             <thead>
               <tr className="bg-gray-100 text-gray-700">
-                <th className="px-6 py-3 text-left text-sm font-medium">Select</th>
-                <th className="px-6 py-3 text-left text-sm font-medium">Image</th>
-                <th className="px-6 py-3 text-left text-sm font-medium">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-medium">Action</th>
+                <th className="px-6 py-3 text-left text-sm font-medium">
+                  Select
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-medium">
+                  Image
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-medium">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-medium">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -185,7 +211,7 @@ const AddEmployee = () => {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <img
-                      src={user.imageUrl}
+                      src={user.photoURL}
                       alt={user.name}
                       className="w-10 h-10 rounded-full mx-auto"
                     />

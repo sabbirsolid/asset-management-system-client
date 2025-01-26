@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import axios from "axios";
 
 const JoinAsEmployee = () => {
   const { createUserWithEmail, loading, signInWithGoogle } =
@@ -15,8 +16,10 @@ const JoinAsEmployee = () => {
   const [error, setError] = useState("");
   const axiosPublic = useAxiosPublic();
   const { register, handleSubmit, reset } = useForm();
+  const imgbb_key = import.meta.env.VITE_IMGBB_KEY;
+  const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imgbb_key}`;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const password = data.password;
     // Combined validation for uppercase and lowercase
     if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
@@ -30,6 +33,12 @@ const JoinAsEmployee = () => {
       return;
     }
     setError("");
+    const profilePic = { image: data.profilePic[0] };
+    const resProfilePic = await axios.post(image_hosting_api, profilePic, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
 
     createUserWithEmail(data.email, password)
       .then(() => {
@@ -43,6 +52,7 @@ const JoinAsEmployee = () => {
               name: data.name,
               email: data.email,
               role: "employee",
+              photoURL: resProfilePic.data.data.display_url
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               if (res.data.insertedId) {
@@ -79,6 +89,7 @@ const JoinAsEmployee = () => {
       const userInfo = {
         name: res.user.displayName,
         email: res.user.email,
+        photoURL: res.user.photoURL,
         role: "employee",
       };
       axiosPublic.post("/users", userInfo).then((res) => {
@@ -158,6 +169,24 @@ const JoinAsEmployee = () => {
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
+          </div>
+
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="companyLogo"
+            >
+              Your Photo
+            </label>
+            <input
+              type="file"
+              id="profilePic"
+              name="profilePic"
+              accept="image/*"
+              {...register("profilePic")}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
           </div>
 
           <div>

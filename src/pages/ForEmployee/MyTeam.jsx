@@ -1,4 +1,4 @@
-import  { useContext } from "react";
+import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet-async";
 const MyTeamPage = () => {
   const { user, loading } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  const { data: team,isLoading } = useQuery({
+  const { data: team, isLoading } = useQuery({
     queryKey: ["team", user?.email],
     enabled: !loading,
     queryFn: async () => {
@@ -17,7 +17,7 @@ const MyTeamPage = () => {
     },
   });
 
-  if ( isLoading) {
+  if (isLoading) {
     return (
       <div className="flex items-center min-h-screen justify-center h-full">
         <span className="loading loading-infinity loading-lg"></span>
@@ -25,14 +25,13 @@ const MyTeamPage = () => {
     );
   }
 
-
   const columns = [
     {
       name: "Image",
-      selector: (row) => row.imageUrl,
+      selector: (row) => row.photoURL,
       cell: (row) => (
         <img
-          src={row.imageUrl}
+          src={row.photoURL}
           alt={row.name}
           className="w-10 h-10 rounded-full"
         />
@@ -49,17 +48,11 @@ const MyTeamPage = () => {
       selector: (row) => (row.isAdmin ? "Admin" : "Employee"),
       cell: (row) =>
         row.isAdmin ? (
-          <span
-            className="text-green-500 font-semibold"
-            title="Admin"
-          >
+          <span className="text-green-500 font-semibold" title="Admin">
             Admin
           </span>
         ) : (
-          <span
-            className="text-blue-500 font-semibold"
-            title="Normal Employee"
-          >
+          <span className="text-blue-500 font-semibold" title="Normal Employee">
             Employee
           </span>
         ),

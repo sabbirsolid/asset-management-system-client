@@ -101,7 +101,7 @@ const AllRequests = () => {
     },
     {
       name: "Additional Note",
-      selector: (row) => row.additionalNote || "N/A",
+      selector: (row) => row.notes || "N/A",
     },
     {
       name: "Status",

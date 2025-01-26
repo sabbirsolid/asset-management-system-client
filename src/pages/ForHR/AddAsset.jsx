@@ -23,6 +23,7 @@ const AddAsset = () => {
       hrEmail: userObject.email,
       company: userObject.company,
     };
+    console.log(assetData);
 
     axiosSecure.patch("/assets", assetData).then((res) => {
       if (res.data.modifiedCount > 0 || res.data.upsertedId) {

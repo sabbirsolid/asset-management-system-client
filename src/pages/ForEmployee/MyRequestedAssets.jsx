@@ -44,6 +44,7 @@ const MyRequestedAssets = () => {
   });
 
   const handleSearch = (e) => {
+    e.preventDefault();
     setSearchTerm(e.target.value);
   };
 
@@ -225,7 +226,9 @@ const MyRequestedAssets = () => {
       <Helmet>
         <title>My Assets | AMS</title>
       </Helmet>
-      <h1 className="text-2xl text-center font-bold mb-4">My Requested Assets</h1>
+      <h1 className="text-2xl text-center font-bold mb-4">
+        My Requested Assets
+      </h1>
       {/* Search Section */}
       <input
         type="text"

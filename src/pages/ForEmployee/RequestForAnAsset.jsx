@@ -5,6 +5,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserRoles from "../../hooks/useUserRoles";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const RequestForAnAsset = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +19,7 @@ const RequestForAnAsset = () => {
   const axiosSecure = useAxiosSecure();
   const { userObject } = useUserRoles();
 
-  const { data: assets = [] , isLoading} = useQuery({
+  const { data: assets = [], isLoading } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
       const { field, order } = sortConfig;
@@ -50,6 +51,7 @@ const RequestForAnAsset = () => {
     },
   });
   const handleSearch = (e) => {
+    // e.preventDefault();
     setSearchTerm(e.target.value);
   };
 
@@ -93,7 +95,11 @@ const RequestForAnAsset = () => {
     const res = await axiosSecure.post("/requests", requestData);
 
     if (res.data.insertedId) {
-      alert("Request submitted successfully!");
+      Swal.fire({
+        title: "Request submitted successfully!",
+        icon: "success",
+        draggable: true
+      });
       closeModal();
       refetch();
     }
@@ -113,23 +119,46 @@ const RequestForAnAsset = () => {
       name: "Availability",
       selector: (row) => (row.quantity > 0 ? "Available" : "Out of Stock"),
     },
+    // {
+    //   name: "Actions",
+    //   cell: (row) => (
+    //     <button
+    //       onClick={() => openModal(row)}
+    //       className={`${
+    //         row.quantity > 0 ? "bg-blue-500" : "bg-gray-500 cursor-not-allowed"
+    //       } text-white px-4 py-2 rounded`}
+    //       disabled={
+    //         row.quantity === 0 || requests?.find((req) => req.status == row.name)
+    //       }
+    //     >
+    //       {requests?.find((req) => req.name == row.name)
+    //         ? "Requested"
+    //         : "Request"}
+    //     </button>
+    //   ),
+    // },
     {
       name: "Actions",
-      cell: (row) => (
-        <button
-          onClick={() => openModal(row)}
-          className={`${
-            row.quantity > 0 ? "bg-blue-500" : "bg-gray-500 cursor-not-allowed"
-          } text-white px-4 py-2 rounded`}
-          disabled={
-            row.quantity === 0 || requests?.find((req) => req.name == row.name)
-          }
-        >
-          {requests?.find((req) => req.name == row.name)
-            ? "Requested"
-            : "Request"}
-        </button>
-      ),
+      cell: (row) => {
+        // Check if there's a pending request for this asset
+        const pendingRequest = requests?.find(
+          (req) => req.assetId === row._id && req.status === "pending"
+        );
+  
+        return (
+          <button
+            onClick={() => openModal(row)}
+            className={`${
+              row.quantity > 0 && !pendingRequest
+                ? "bg-blue-500"
+                : "bg-gray-500 cursor-not-allowed"
+            } text-white px-4 py-2 rounded`}
+            disabled={row.quantity === 0 || !!pendingRequest}
+          >
+            {pendingRequest ? "Requested (Pending)" : "Request"}
+          </button>
+        );
+      },
     },
   ];
 
@@ -146,7 +175,9 @@ const RequestForAnAsset = () => {
       <Helmet>
         <title>Request for an Asset | AMS</title>
       </Helmet>
-      <h1 className="text-2xl text-center font-bold mb-4">Request for an Asset</h1>
+      <h1 className="text-2xl text-center font-bold mb-4">
+        Request for an Asset
+      </h1>
 
       {/* Search Section */}
       <input
@@ -158,7 +189,7 @@ const RequestForAnAsset = () => {
       />
 
       {/* Filter Section */}
-      <div className="flex gap-4 mb-4">
+      <div className="lg:flex gap-4 mb-4">
         <select
           name="stockStatus"
           value={filters.stockStatus}

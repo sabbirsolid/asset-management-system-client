@@ -7,6 +7,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckOutFormJoin from "../Payment/CheckOutFormJoin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const JoinAsHRManager = () => {
@@ -17,14 +18,16 @@ const JoinAsHRManager = () => {
   const imgbb_key = import.meta.env.VITE_IMGBB_KEY;
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imgbb_key}`;
 
-  const [packages, setPackages] = useState([]);
+  // const [packages, setPackages] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const axiosPublic = useAxiosPublic();
-  useEffect(() => {
-    axiosPublic.get("/packages").then((res) => {
-      setPackages(res.data);
-    });
-  }, []);
+  const { data: packages = [] } = useQuery({
+    queryKey: ["packages"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/packages");
+      return res.data;
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -35,8 +38,15 @@ const JoinAsHRManager = () => {
     const password = data.password;
 
     const selectedPack = packages.find((pack) => pack._id === data.package);
-    const imageFile = { image: data.companyLogo[0] };
-    const response = await axios.post(image_hosting_api, imageFile, {
+    const profilePic = { image: data.profilePic[0] };
+    const companyLogo = { image: data.companyLogo[0] };
+    
+    const resProfilePic = await axios.post(image_hosting_api, profilePic, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    const resCompanyLogo = await axios.post(image_hosting_api, companyLogo, {
       headers: {
         "content-type": "multipart/form-data",
       },
@@ -58,7 +68,8 @@ const JoinAsHRManager = () => {
       email: data.email,
       password: password,
       company: data.companyName,
-      companyLogo: response.data.data.display_url,
+      companyLogo: resCompanyLogo.data.data.display_url,
+      photoURL: resProfilePic.data.data.display_url,
       role: "HRManager",
       selectedPackagePrice: selectedPack.price,
       employeeCount: selectedPack.numberOfEmployees,
@@ -105,6 +116,23 @@ const JoinAsHRManager = () => {
               type="text"
               id="fullName"
               {...register("name")}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="companyLogo"
+            >
+              Your Photo
+            </label>
+            <input
+              type="file"
+              id="profilePic"
+              name="profilePic"
+              accept="image/*"
+              {...register("profilePic")}
               className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
