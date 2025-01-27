@@ -16,17 +16,13 @@ import useUserRoles from "../../hooks/useUserRoles";
 import { Helmet } from "react-helmet-async";
 
 const MyRequestedAssets = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { userObject } = useUserRoles();
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({ requestStatus: "", assetType: "" });
 
-  const {
-    data: requests = [],
-    refetch,
-    isLoading,
-  } = useQuery({
+  const { data: requests = [], refetch } = useQuery({
     queryKey: [user?.email, "requests", searchTerm, filters],
     queryFn: async () => {
       const { requestStatus, assetType } = filters;
@@ -56,7 +52,7 @@ const MyRequestedAssets = () => {
   const handleCancelRequest = (requestId) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You want to cancel?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -81,12 +77,12 @@ const MyRequestedAssets = () => {
   const handleReturnAsset = async (requestId, assetId, requestedQuantity) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to approve this request!",
+      text: "You want to return this item?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, approve it!",
+      confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
@@ -173,7 +169,8 @@ const MyRequestedAssets = () => {
           {row.status === "pending" && (
             <button
               onClick={() => handleCancelRequest(row._id)}
-              className="bg-red-500 text-white px-2 py-1 rounded w-full lg:w-auto text-sm lg:text-base hover:bg-red-600 transition"
+              // className="bg-red-500 text-white px-2 py-1 rounded w-full lg:w-auto text-sm lg:text-base hover:bg-red-600 transition"
+              className="btn btn-sm bg-red-600 text-white w-full"
             >
               Cancel
             </button>
@@ -183,7 +180,8 @@ const MyRequestedAssets = () => {
               <PDFDownloadLink
                 document={<RequestDetailsPDF request={row} />}
                 fileName={`Request_Details_${row.name}.pdf`}
-                className="bg-blue-500 text-white px-2 py-1 rounded w-full lg:w-auto text-sm lg:text-base hover:bg-blue-600 transition"
+                // className="bg-blue-500 text-white px-2 py-1 rounded w-full lg:w-auto text-sm lg:text-base hover:bg-blue-600 transition"
+                className="btn btn-sm bg-green-600 text-white w-full"
               >
                 Print
               </PDFDownloadLink>
@@ -197,10 +195,10 @@ const MyRequestedAssets = () => {
                     )
                   }
                   disabled={row.status === "returned"}
-                  className={`w-full lg:w-auto text-sm lg:text-base px-2 py-1 rounded transition ${
+                  className={`btn btn-sm w-full ${
                     row.status === "returned"
-                      ? "bg-gray-500 cursor-not-allowed text-gray-300"
-                      : "bg-green-500 hover:bg-green-600 text-white"
+                      ? "bg-gray-500 "
+                      : "bg-yellow-500  text-black"
                   }`}
                 >
                   {row.status === "returned" ? "Returned" : "Return"}
@@ -212,14 +210,6 @@ const MyRequestedAssets = () => {
       ),
     },
   ];
-
-  if (loading || isLoading) {
-    return (
-      <div className="flex items-center min-h-screen justify-center h-full">
-        <span className="loading loading-infinity loading-lg"></span>
-      </div>
-    );
-  }
 
   return (
     <div className="p-6">

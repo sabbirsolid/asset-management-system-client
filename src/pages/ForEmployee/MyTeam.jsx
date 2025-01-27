@@ -33,7 +33,7 @@ const MyTeamPage = () => {
         <img
           src={row.photoURL}
           alt={row.name}
-          className="w-10 h-10 rounded-full"
+          className="w-8 h-8 rounded-full object-cover"
         />
       ),
       center: true,

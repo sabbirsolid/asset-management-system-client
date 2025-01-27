@@ -87,7 +87,7 @@ const MyEmployeeList = () => {
         <img
           src={row.photoURL}
           alt={row.name}
-          className="w-10 h-10 rounded-full mx-auto shadow-sm"
+          className="w-8 h-8 rounded-full object-cover mx-auto shadow-sm"
         />
       ),
       sortable: false,
@@ -116,7 +116,7 @@ const MyEmployeeList = () => {
       cell: (row) => (
         <button
           onClick={() => handleRemoveMember(row._id)}
-          className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition duration-200"
+          className="bg-red-500 text-white btn btn-sm"
         >
           Remove
         </button>
@@ -143,7 +143,7 @@ const MyEmployeeList = () => {
       </h1>
       <div className="bg-white shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">
-          Team Members
+          Number of Employees: {team?.length}
         </h2>
         <button
           onClick={() => setModalOpen(true)}

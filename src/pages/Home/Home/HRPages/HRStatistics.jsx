@@ -7,7 +7,7 @@ const HRStatistics = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  const { data: statistics = {}, isLoading } = useQuery({
+  const { data: statistics = {} } = useQuery({
     queryKey: ["hrStatistics", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get("/hrStatistics", {
@@ -17,18 +17,20 @@ const HRStatistics = () => {
     },
   });
 
-  if (isLoading) {
-    return <p>Loading statistics...</p>;
-  }
-
   const { users = [], statusCounts = {} } = statistics;
 
   return (
     <div className="shadow-md rounded-lg p-6 md:p-8">
-      <h2 className="text-2xl font-bold text-center text-blue-600">HR Statistics</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+        Statistics
+      </h2>
       <div className="mb-6">
-        <h3 className="text-lg font-medium text-center mb-4">Total Employees</h3>
-        <p className="text-3xl font-bold text-center text-blue-600">{users.length}</p>
+        <h3 className="text-lg font-medium text-center mb-4">
+          Total Employees
+        </h3>
+        <p className="text-3xl font-bold text-center text-blue-600">
+          {users.length}
+        </p>
       </div>
       <div>
         <h3 className="text-lg font-medium text-center mb-4">Request Status</h3>

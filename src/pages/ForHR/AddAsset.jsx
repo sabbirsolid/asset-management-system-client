@@ -23,7 +23,6 @@ const AddAsset = () => {
       hrEmail: userObject.email,
       company: userObject.company,
     };
-    console.log(assetData);
 
     axiosSecure.patch("/assets", assetData).then((res) => {
       if (res.data.modifiedCount > 0 || res.data.upsertedId) {
@@ -31,15 +30,15 @@ const AddAsset = () => {
         Swal.fire({
           title: "Asset added successfully!",
           icon: "success",
-          draggable: true
+          draggable: true,
         });
       }
     });
   };
 
   return (
-    <div className="p-6 lg:w-2/5 mx-auto ">
-       <Helmet>
+    <div className="p-6 lg:w-2/5 mx-auto border rounded-lg my-5">
+      <Helmet>
         <title>Add Asset | AMS</title>
       </Helmet>
       <h1 className="text-2xl text-center font-bold mb-4">Add an Asset</h1>

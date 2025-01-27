@@ -21,7 +21,6 @@ const EmployeeProfile = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
-
     axiosSecure
       .patch(`/employeeProfile/${user.email}`, { name })
       .then((res) => {
@@ -37,15 +36,15 @@ const EmployeeProfile = () => {
   };
 
   return (
-    <div>
+    <div >
       <Helmet>
         <title>Employee Profile | AMS</title>
       </Helmet>
-      <form onSubmit={handleUpdate} className="p-6 max-w-lg mx-auto">
+      <form onSubmit={handleUpdate} className="p-6 max-w-lg border rounded-lg my-5 mx-auto">
         <h1 className="text-2xl text-center font-bold mb-4">Employee Profile</h1>
 
         {/* Profile Image Section */}
-        <div className="mb-6 text-center">
+        <div className="mb-6 text-center ">
           <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden shadow-lg border-2 border-gray-300">
             {userObject?.photoURL ? (
               <img

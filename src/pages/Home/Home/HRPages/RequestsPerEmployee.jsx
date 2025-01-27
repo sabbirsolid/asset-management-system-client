@@ -7,7 +7,7 @@ const RequestsPerEmployee = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  const { data: requestsData = [], isLoading } = useQuery({
+  const { data: requestsData = [] } = useQuery({
     queryKey: ["requestsPerEmployee", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get("/requestsPerEmployee", {
@@ -17,7 +17,16 @@ const RequestsPerEmployee = () => {
     },
   });
 
-  
+  if (requestsData.length === 0) {
+    return (
+      <div className=" p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+          Requests Per Employee
+        </h2>
+        <p className="text-center text-red-500 text-lg">Nothing to Show</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 md:p-8 lg:p-12 shadow-lg rounded-lg max-w-full md:max-w-2xl lg:max-w-3xl mx-auto ">

@@ -19,10 +19,22 @@ const PaymentHistory = () => {
     },
   });
 
+  if (payments?.length === 0) {
+    return (
+      <div className="my-10 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+          Payment History
+        </h2>
+        <p className="text-center text-red-500 text-lg">Nothing to Show</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 p-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Payment History</h2>
+    <div className="max-w-6xl mx-auto my-10 p-6">
+      <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+        Payment History
+      </h2>
 
       {isLoading ? (
         <p className="text-center text-gray-500">Loading...</p>

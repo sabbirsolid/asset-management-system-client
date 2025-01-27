@@ -9,8 +9,8 @@ import { Helmet } from "react-helmet-async";
 const AllRequests = () => {
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
-  const { user, loading } = useContext(AuthContext);
-  const { data: requests = [], refetch, isLoading } = useQuery({
+  const { user } = useContext(AuthContext);
+  const { data: requests = [], refetch } = useQuery({
     queryKey: ["allRequests", user?.email, searchTerm],
     queryFn: async () => {
       const res = await axiosSecure.get("/allRequestsHR", {
@@ -138,17 +138,9 @@ const AllRequests = () => {
     },
   ];
 
-  if (loading || isLoading) {
-    return (
-      <div className="flex items-center min-h-screen justify-center h-full">
-        <span className="loading loading-infinity loading-lg"></span>
-      </div>
-    );
-  }
-
   return (
     <div className="p-6">
-       <Helmet>
+      <Helmet>
         <title>All Requests | AMS</title>
       </Helmet>
       <h1 className="text-2xl text-center font-bold mb-4">All Requests</h1>

@@ -1,59 +1,3 @@
-// import Banner from "../Banner/Banner";
-// import About from "../About/About";
-// import Packages from "../Packages/Packages";
-// import useUserRoles from "../../../hooks/useUserRoles";
-
-// import PendingRequests from "./EmployeePage/PendingRequests";
-// import MonthlyRequests from "./EmployeePage/MonthlyRequests";
-// import NoAffiliationMessage from "./NoAffiliationMessage";
-// import PendingRequestsHR from "./HRPages/PendingRequestsHR";
-// import TopRequestedItem from "./HRPages/TopRequestedItem";
-// import PieChart from "./HRPages/PieChart";
-// import LimitedStockItems from "./HRPages/LimitedStockItems";
-
-// import RequestsPerEmployee from "./HRPages/RequestsPerEmployee";
-// import NoticeBoard from "./HRPages/NoticeBoard";
-// import NoticeBoardEmp from "./EmployeePage/noticeBoardEmp";
-// import HRStatistics from "./HRPages/HRStatistics";
-
-// const Home = () => {
-//   const { isHR, isEmployee } = useUserRoles();
-
-//   return (
-//     <div>
-//       {isEmployee && (
-//         <>
-//           <PendingRequests />
-//           <MonthlyRequests />
-//           <NoticeBoardEmp></NoticeBoardEmp>
-//         </>
-//       )}
-//       {isHR && !isEmployee && (
-//         <>
-//           <PendingRequestsHR></PendingRequestsHR>
-//           <TopRequestedItem></TopRequestedItem>
-//           <PieChart></PieChart>
-//           <LimitedStockItems></LimitedStockItems>
-//           <HRStatistics></HRStatistics>
-//           <RequestsPerEmployee></RequestsPerEmployee>
-//           <NoticeBoard></NoticeBoard>
-
-//         </>
-//       )}
-//       {!isHR && !isEmployee && (
-//         <>
-//           <Banner />
-//           <About />
-//           <Packages />
-//           <NoAffiliationMessage />
-//         </>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Home;
-
 import Banner from "../Banner/Banner";
 import About from "../About/About";
 import Packages from "../Packages/Packages";
@@ -69,17 +13,18 @@ import LimitedStockItems from "./HRPages/LimitedStockItems";
 
 import RequestsPerEmployee from "./HRPages/RequestsPerEmployee";
 import NoticeBoard from "./HRPages/NoticeBoard";
-import NoticeBoardEmp from "./EmployeePage/noticeBoardEmp";
 import HRStatistics from "./HRPages/HRStatistics";
 import { motion } from "framer-motion";
 import PaymentHistory from "./HRPages/PaymentHistory";
 import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
+import NoticeBoardEmp from "./EmployeePage/NoticeBoardEmp";
 
 const Home = () => {
-  const { isHR, isEmployee } = useUserRoles();
+  const { isHR, isEmployee, isLoading } = useUserRoles();
   const { loading } = useContext(AuthContext);
+  const { userObject } = useUserRoles();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -100,7 +45,7 @@ const Home = () => {
     },
   };
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
       <div className="flex items-center min-h-screen justify-center h-full">
         <span className="loading loading-infinity loading-lg"></span>
@@ -130,6 +75,13 @@ const Home = () => {
           <motion.div variants={childVariants}>
             <NoticeBoardEmp />
           </motion.div>
+          {userObject?.company ? (
+            ""
+          ) : (
+            <motion.div variants={childVariants}>
+              <NoAffiliationMessage />
+            </motion.div>
+          )}
         </motion.div>
       )}
       {isHR && !isEmployee && (
@@ -180,9 +132,6 @@ const Home = () => {
           </motion.div>
           <motion.div variants={childVariants}>
             <About />
-          </motion.div>
-          <motion.div variants={childVariants}>
-            <NoAffiliationMessage />
           </motion.div>
         </motion.div>
       )}

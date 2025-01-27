@@ -9,7 +9,6 @@ const MonthlyRequests = () => {
 
   const {
     data: requests = [],
-    isLoading,
   } = useQuery({
     queryKey: ["monthlyRequests", user?.email],
     enabled: !!user?.email,
@@ -25,7 +24,7 @@ const MonthlyRequests = () => {
   if (requests.length === 0) {
     return (
       <div className=" p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
-        <h2 className="text-3xl font-semibold mb-4 text-center ">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
           My Monthly Requests
         </h2>
         <p className="text-center text-red-500 text-lg">No Requests to Show</p>

@@ -7,7 +7,7 @@ const PendingRequests = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  const { data: requests = [], isLoading, isError, error } = useQuery({
+  const { data: requests = [] } = useQuery({
     queryKey: ["pendingRequests", user?.email],
     queryFn: async () => {
       const response = await axiosSecure.get("/pendingRequest", {
@@ -15,29 +15,23 @@ const PendingRequests = () => {
       });
       return response.data;
     },
-    enabled: !!user?.email, // Only fetch when email is available
+    enabled: !!user?.email,
   });
 
-  if (isLoading) {
+ 
+  if (requests.length === 0) {
     return (
-      <div className="p-6 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">My Pending Requests</h2>
-        <p className="text-center text-gray-500 text-lg">Loading...</p>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="p-6 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
-        <h2 className="text-2xl font-semibold mb-6 text-center -800">My Pending Requests</h2>
-        <p className="text-center text-red-500 text-lg">Error: {error.message}</p>
+      <div className="my-10 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+        My Pending Requests
+        </h2>
+        <p className="text-center text-red-500 text-lg">No Requests to Show</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
+    <div className="p-6 my-10 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
       <h2 className="text-2xl font-semibold mb-6 text-center -800">My Pending Requests</h2>
       {requests.length > 0 ? (
         <ul className="divide-y divide-gray-200">

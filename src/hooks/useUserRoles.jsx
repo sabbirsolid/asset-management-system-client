@@ -16,7 +16,7 @@ const useUserRoles = () => {
     enabled: !loading && !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/roles/${user.email}`);
- 
+
       return res.data;
     },
   });
@@ -25,7 +25,7 @@ const useUserRoles = () => {
   const isEmployee = roleData?.isEmployee || false;
   const userObject = roleData?.user || null;
 
-  return { isHR, isEmployee, userObject, isLoading,refetch };
+  return { isHR, isEmployee, userObject, isLoading, refetch };
 };
 
 export default useUserRoles;

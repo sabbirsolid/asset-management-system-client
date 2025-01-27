@@ -2,15 +2,15 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../Firebase/firebase.config";
 import { updateProfile } from "firebase/auth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 const JoinAsEmployee = () => {
-  const { createUserWithEmail, loading, signInWithGoogle } =
-    useContext(AuthContext);
+  const { createUserWithEmail, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -20,6 +20,12 @@ const JoinAsEmployee = () => {
   const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imgbb_key}`;
 
   const onSubmit = async (data) => {
+    const profilePic = { image: data.profilePic[0] };
+    const resProfilePic = await axios.post(image_hosting_api, profilePic, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
     const password = data.password;
     // Combined validation for uppercase and lowercase
     if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
@@ -33,12 +39,6 @@ const JoinAsEmployee = () => {
       return;
     }
     setError("");
-    const profilePic = { image: data.profilePic[0] };
-    const resProfilePic = await axios.post(image_hosting_api, profilePic, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
 
     createUserWithEmail(data.email, password)
       .then(() => {
@@ -52,7 +52,7 @@ const JoinAsEmployee = () => {
               name: data.name,
               email: data.email,
               role: "employee",
-              photoURL: resProfilePic.data.data.display_url
+              photoURL: resProfilePic.data.data.display_url,
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               if (res.data.insertedId) {
@@ -75,14 +75,6 @@ const JoinAsEmployee = () => {
         setError(`Failed to register: ${error.message}`);
       });
   };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <span className="loading loading-spinner text-info text-5xl"></span>
-      </div>
-    );
-  }
 
   const handleSignInWithGoogle = () => {
     signInWithGoogle().then((res) => {
@@ -108,6 +100,9 @@ const JoinAsEmployee = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <Helmet>
+        <title>Join as Employee | AMS</title>
+      </Helmet>
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
           Join as an Employee
@@ -213,7 +208,6 @@ const JoinAsEmployee = () => {
             Sign Up
           </button>
         </form>
-        {/* <GoogleLogin></GoogleLogin> */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">Or sign up using</p>
           <button
@@ -223,6 +217,12 @@ const JoinAsEmployee = () => {
             Continue with Google
           </button>
         </div>
+        <p className="text-center mt-2">
+          Already Joined?{" "}
+          <Link to="/login" className="underline text-blue-600 font-semibold">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );

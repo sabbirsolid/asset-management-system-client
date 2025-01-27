@@ -12,14 +12,10 @@ const AssetList = () => {
   const [sortConfig, setSortConfig] = useState({ field: "name", order: "asc" });
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [updatedAssetData, setUpdatedAssetData] = useState({});
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
-  const {
-    data: assets = [],
-    refetch,
-    isLoading,
-  } = useQuery({
+  const { data: assets = [], refetch } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
       const { field, order } = sortConfig;
@@ -27,7 +23,6 @@ const AssetList = () => {
       const res = await axiosSecure.get("/assetsHR", {
         params: {
           search: searchTerm,
-          sortField: field,
           sortOrder: order,
           stockStatus,
           assetType,
@@ -48,6 +43,7 @@ const AssetList = () => {
   };
 
   const handleSort = (column, sortDirection) => {
+    refetch();
     setSortConfig({ field: column.selector, order: sortDirection });
   };
 
@@ -69,7 +65,7 @@ const AssetList = () => {
               text: "Your asset has been deleted.",
               icon: "success",
             });
-            refetch();
+        refetch();
           }
         });
       }
@@ -113,7 +109,7 @@ const AssetList = () => {
     {
       name: "Product Name",
       selector: (row) => row.name,
-      sortable: true,
+      
     },
     {
       name: "Product Type",
@@ -134,13 +130,13 @@ const AssetList = () => {
         <div className="lg:flex justify-center items-center my-2 gap-2">
           <button
             onClick={() => handleUpdate(row)}
-            className="bg-yellow-500 text-white px-4 py-2 my-1 rounded"
+            className="bg-yellow-500 text-white btn btn-sm "
           >
             Update
           </button>
           <button
             onClick={() => handleDelete(row._id)}
-            className="bg-red-500 text-white px-4 py-2 my-1 rounded"
+            className="bg-red-500 text-white btn btn-sm "
           >
             Delete
           </button>
@@ -148,14 +144,6 @@ const AssetList = () => {
       ),
     },
   ];
-
-  if (loading || isLoading) {
-    return (
-      <div className="flex items-center min-h-screen justify-center h-full">
-        <span className="loading loading-infinity loading-lg"></span>
-      </div>
-    );
-  }
 
   return (
     <div className="p-6">

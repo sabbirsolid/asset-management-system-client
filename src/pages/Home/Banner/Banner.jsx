@@ -45,16 +45,14 @@ const Banner = () => {
               <Link
                 to={slide.buttonLink}
                 className="relative inline-block text-lg group"
-                style={{ bottom: "10%", position: "absolute" }} // Move the button downward
+                style={{ bottom: "10%", position: "absolute" }}
               >
                 <span className="relative z-10 block px-4 py-2 overflow-hidden font-medium leading-tight text-white transition-colors duration-300 ease-out rounded-lg shadow-lg group-hover:text-yellow-600">
                   <span className="absolute inset-0 w-full h-full px-6 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-600"></span>
                   <span className="absolute inset-0 w-full h-full px-6 py-3 transition-all duration-300 ease-out transform translate-x-full group-hover:-translate-x-0 group-hover:scale-105 bg-white"></span>
                   <span className="relative">{slide.buttonText}</span>
                 </span>
-                <span
-                  className="absolute bottom-0 right-0 block w-8 h-8 transition-transform duration-300 ease-out transform translate-x-3 translate-y-3 bg-white rounded-full group-hover:translate-x-0 group-hover:translate-y-0"
-                ></span>
+                <span className="absolute bottom-0 right-0 block w-8 h-8 transition-transform duration-300 ease-out transform translate-x-3 translate-y-3 bg-white rounded-full group-hover:translate-x-0 group-hover:translate-y-0"></span>
               </Link>
             </div>
           </div>

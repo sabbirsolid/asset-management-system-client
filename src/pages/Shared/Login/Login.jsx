@@ -141,7 +141,7 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -283,6 +283,7 @@ const Login = () => {
         >
           Continue with Google
         </button>
+        <p className="text-center">New Here? <Link to='/joinAsEmployee' className="underline text-blue-600 font-semibold">Join as Employee</Link> or <Link to='/joinAsHRManager' className="underline text-blue-600 font-semibold">Join as HR</Link> </p>
       </div>
     </div>
   );

@@ -5,9 +5,10 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useUserRoles from "../../hooks/useUserRoles";
 
-const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
+const CheckoutForm = ({ variables }) => {
   const { user } = useContext(AuthContext);
   const { userObject } = useUserRoles();
+  const [clientSecret, refetch, selectedPackage] = variables;
 
   const stripe = useStripe();
   const elements = useElements();
@@ -98,11 +99,16 @@ const CheckoutForm = ({ clientSecret, refetch, selectedPackage }) => {
       />
       <button
         disabled={!stripe || !elements || !clientSecret}
-        className="btn btn-primary my-5"
+        className={`px-6 py-3 my-5 rounded-lg text-white font-semibold tracking-wide transition duration-300 ${
+          !stripe || !elements || !clientSecret
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-lg"
+        }`}
         type="submit"
       >
         Pay Now
       </button>
+
       <p className="text-red-600">{error}</p>
       {transactionId && (
         <p className="text-green-600">Your Transaction ID: {transactionId} </p>

@@ -109,7 +109,7 @@ const AddEmployee = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 my-5 lg:w-8/12 mx-auto min-h-screen">
       <Helmet>
         <title>Add Member | AMS</title>
       </Helmet>
@@ -118,7 +118,7 @@ const AddEmployee = () => {
       </h1>
 
       {/* Package Section */}
-      <div className="bg-white shadow rounded-lg p-6 mb-8">
+      <div className="bg-white shadow rounded-lg p-2 lg:p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Package Information
         </h2>
@@ -146,7 +146,7 @@ const AddEmployee = () => {
         </select>
 
         {showPayment && (
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
+          <div className="mt-6 bg-gray-50 px-1 py-4 lg:px-4 rounded-lg border">
             <h3 className="text-lg font-semibold mb-2 text-gray-700">
               Confirm Payment
             </h3>
@@ -159,9 +159,8 @@ const AddEmployee = () => {
               <div className="my-6">
                 <Elements stripe={stripePromise}>
                   <CheckoutForm
-                    clientSecret={clientSecret}
-                    refetch={refetch}
-                    selectedPackage={selectedPackage}
+                    
+                    variables={[clientSecret, refetch, selectedPackage]}
                   />
                 </Elements>
               </div>
@@ -213,7 +212,7 @@ const AddEmployee = () => {
                     <img
                       src={user.photoURL}
                       alt={user.name}
-                      className="w-10 h-10 rounded-full mx-auto"
+                      className="w-10 h-10 rounded-full object-cover mx-auto"
                     />
                   </td>
                   <td className="px-6 py-4 text-center text-gray-700">

@@ -1,8 +1,7 @@
 import axios from "axios";
-// http://localhost:5000
-// http://localhost:5000
 const axiosPublic = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://asset-management-system-server-drab.vercel.app",
+  // baseURL: "http://localhost:5000",
 });
 const useAxiosPublic = () => {
   return axiosPublic;

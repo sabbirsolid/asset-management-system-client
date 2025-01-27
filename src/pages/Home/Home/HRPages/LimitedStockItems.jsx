@@ -18,6 +18,17 @@ const LimitedStockItems = () => {
     },
   });
 
+  if (lowStockAssets.length === 0) {
+    return (
+      <div className=" p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
+          Limited Stock Items
+        </h2>
+        <p className="text-center text-red-500 text-lg">No Assets to Show</p>
+      </div>
+    );
+  }
+
   return (
     <div className=" shadow-lg rounded-lg p-4 md:p-6">
       <h2 className="text-2xl font-bold text-center text-blue-600 ">
@@ -55,5 +66,3 @@ const LimitedStockItems = () => {
 };
 
 export default LimitedStockItems;
-
-

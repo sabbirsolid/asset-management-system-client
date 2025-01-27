@@ -1,5 +1,3 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 // payments
@@ -8,10 +6,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckOutFormJoin from "../Payment/CheckOutFormJoin";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useState } from "react";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_PK);
 const JoinAsHRManager = () => {
-  const { loading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState("");
@@ -40,7 +40,7 @@ const JoinAsHRManager = () => {
     const selectedPack = packages.find((pack) => pack._id === data.package);
     const profilePic = { image: data.profilePic[0] };
     const companyLogo = { image: data.companyLogo[0] };
-    
+
     const resProfilePic = await axios.post(image_hosting_api, profilePic, {
       headers: {
         "content-type": "multipart/form-data",
@@ -86,17 +86,15 @@ const JoinAsHRManager = () => {
       });
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <span className="loading loading-spinner text-info text-5xl"></span>
-      </div>
-    );
-  }
-
   return (
     <div>
-      <div className="flex justify-center items-center py-10 min-h-screen bg-gray-100">
+      <Helmet>
+        <title>Join as HR | AMS</title>
+      </Helmet>
+      <div
+        className="flex justify-center items-center py-10 min-h-screen 
+      bg-gray-100"
+      >
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md"
@@ -259,8 +257,15 @@ const JoinAsHRManager = () => {
           >
             Sign Up
           </button>
+          <p className="text-center mt-2">
+            Already Joined?{" "}
+            <Link to="/login" className="underline text-blue-600 font-semibold">
+              Login
+            </Link>
+          </p>
         </form>
       </div>
+
       {/* payments */}
       {clientSecret && (
         <div className="my-10 w-9/12 mx-auto">

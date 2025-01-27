@@ -2,10 +2,10 @@ import axios from "axios";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
-// http://localhost:5000
-// http://localhost:5000
+
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://asset-management-system-server-drab.vercel.app",
+  // baseURL: "http://localhost:5000",
 });
 const useAxiosSecure = () => {
   const navigate = useNavigate();

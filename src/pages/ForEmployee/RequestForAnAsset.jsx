@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import DataTable from "react-data-table-component";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Providers/AuthProvider";
@@ -15,11 +15,11 @@ const RequestForAnAsset = () => {
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [additionalNotes, setAdditionalNotes] = useState("");
   const [requestedQuantity, setRequestedQuantity] = useState(1);
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const { userObject } = useUserRoles();
 
-  const { data: assets = [], isLoading } = useQuery({
+  const { data: assets = [] } = useQuery({
     queryKey: [user?.email, "assets", searchTerm, filters, sortConfig],
     queryFn: async () => {
       const { field, order } = sortConfig;
@@ -51,8 +51,7 @@ const RequestForAnAsset = () => {
     },
   });
   const handleSearch = (e) => {
-    // e.preventDefault();
-    setSearchTerm(e.target.value);
+    e.preventDefault();
   };
 
   const handleFilterChange = (e) => {
@@ -98,7 +97,7 @@ const RequestForAnAsset = () => {
       Swal.fire({
         title: "Request submitted successfully!",
         icon: "success",
-        draggable: true
+        draggable: true,
       });
       closeModal();
       refetch();
@@ -119,99 +118,79 @@ const RequestForAnAsset = () => {
       name: "Availability",
       selector: (row) => (row.quantity > 0 ? "Available" : "Out of Stock"),
     },
-    // {
-    //   name: "Actions",
-    //   cell: (row) => (
-    //     <button
-    //       onClick={() => openModal(row)}
-    //       className={`${
-    //         row.quantity > 0 ? "bg-blue-500" : "bg-gray-500 cursor-not-allowed"
-    //       } text-white px-4 py-2 rounded`}
-    //       disabled={
-    //         row.quantity === 0 || requests?.find((req) => req.status == row.name)
-    //       }
-    //     >
-    //       {requests?.find((req) => req.name == row.name)
-    //         ? "Requested"
-    //         : "Request"}
-    //     </button>
-    //   ),
-    // },
+
     {
       name: "Actions",
       cell: (row) => {
-        // Check if there's a pending request for this asset
         const pendingRequest = requests?.find(
           (req) => req.assetId === row._id && req.status === "pending"
         );
-  
+
         return (
           <button
             onClick={() => openModal(row)}
             className={`${
               row.quantity > 0 && !pendingRequest
-                ? "bg-blue-500"
-                : "bg-gray-500 cursor-not-allowed"
-            } text-white px-4 py-2 rounded`}
-            disabled={row.quantity === 0 || !!pendingRequest}
+                ? "bg-blue-500 text-"
+                : "bg-gray-700  cursor-not-allowed"
+            } btn btn-sm text-white `}
+            disabled={parseInt(row.quantity) === 0 || !!pendingRequest}
           >
-            {pendingRequest ? "Requested (Pending)" : "Request"}
+            {pendingRequest ? "Pending" : "Request"}
           </button>
         );
       },
     },
   ];
 
-  if (loading || isLoading) {
-    return (
-      <div className="flex items-center min-h-screen justify-center h-full">
-        <span className="loading loading-infinity loading-lg"></span>
-      </div>
-    );
-  }
+  0;
 
   return (
     <div className="p-6">
       <Helmet>
         <title>Request for an Asset | AMS</title>
       </Helmet>
+
       <h1 className="text-2xl text-center font-bold mb-4">
         Request for an Asset
       </h1>
 
-      {/* Search Section */}
-      <input
-        type="text"
-        placeholder="Search by name"
-        value={searchTerm}
-        onChange={handleSearch}
-        className="border p-2 rounded w-full mb-4"
-      />
+      <form onSubmit={handleSearch} action="">
+        {/* Search Section */}
 
-      {/* Filter Section */}
-      <div className="lg:flex gap-4 mb-4">
-        <select
-          name="stockStatus"
-          value={filters.stockStatus}
-          onChange={handleFilterChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Filter by Stock Status</option>
-          <option value="available">Available</option>
-          <option value="out-of-stock">Out of Stock</option>
-        </select>
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border p-2 rounded w-full mb-4"
+        />
 
-        <select
-          name="assetType"
-          value={filters.assetType}
-          onChange={handleFilterChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Filter by Asset Type</option>
-          <option value="returnable">Returnable</option>
-          <option value="non-returnable">Non-Returnable</option>
-        </select>
-      </div>
+        {/* Filter Section */}
+        <div className="lg:flex gap-4 mb-4">
+          <select
+            name="stockStatus"
+            value={filters.stockStatus}
+            onChange={handleFilterChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Filter by Stock Status</option>
+            <option value="available">Available</option>
+            <option value="out-of-stock">Out of Stock</option>
+          </select>
+
+          <select
+            name="assetType"
+            value={filters.assetType}
+            onChange={handleFilterChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Filter by Asset Type</option>
+            <option value="returnable">Returnable</option>
+            <option value="non-returnable">Non-Returnable</option>
+          </select>
+        </div>
+      </form>
 
       {/* Data Table */}
       <DataTable
