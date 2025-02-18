@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import useUserRoles from "../../../hooks/useUserRoles";
+import ThemeToggle from "../../../components/DarkMode/ThemeToggle";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -108,9 +109,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar  bg-gray-900">
-      {/* Navbar Start */}
-      <div className="navbar-start">
+    <div className="navbar  bg-gray-900 fixed z-50">
+     <div className="w-11/12 mx-auto ">
+       {/* Navbar Start */}
+       <div className="navbar-start flex items-center">
         <div className="dropdown">
           <button
             tabIndex={0}
@@ -154,7 +156,7 @@ const Navbar = () => {
         {isEmployee || isHR ? (
           userObject?.company ? (
             <img
-              className=" ml-2 w-[40px] object-contain "
+              className="hidden lg:block w-[40px]"
               src={userObject?.companyLogo}
               alt="AMS"
             />
@@ -193,7 +195,9 @@ const Navbar = () => {
             Login
           </NavLink>
         )}
+        <ThemeToggle></ThemeToggle>
       </div>
+     </div>
     </div>
   );
 };

@@ -9,11 +9,10 @@ const Error = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="text-center bg-white shadow-lg rounded-lg p-8 max-w-md">
-       
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Oops!</h1>
-        <p className="text-gray-600 mb-6">
+    <div className="flex items-center justify-center min-h-screen  px-4">
+      <div className="text-center  shadow-lg rounded-lg p-8 max-w-md">
+        <h1 className="text-3xl font-bold mb-2">Oops!</h1>
+        <p className=" mb-6">
           We can't seem to find the page you're looking for.
         </p>
         <button
