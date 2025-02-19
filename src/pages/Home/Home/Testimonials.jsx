@@ -14,9 +14,9 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-12 bg-gray-100 text-center">
+    <section className="py-12  text-center">
       <h2 className="text-3xl font-bold mb-6">What Our Users Say</h2>
-      <div className="p-6 bg-white rounded shadow-md max-w-lg mx-auto">
+      <div className="p-6 border rounded shadow-md max-w-lg mx-auto">
         <p className="text-lg italic">"{testimonials[current].text}"</p>
         <h4 className="font-semibold mt-2">{testimonials[current].name}</h4>
         <button

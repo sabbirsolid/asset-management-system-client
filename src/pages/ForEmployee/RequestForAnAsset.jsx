@@ -146,7 +146,7 @@ const RequestForAnAsset = () => {
   0;
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       <Helmet>
         <title>Request for an Asset | AMS</title>
       </Helmet>

@@ -1,5 +1,3 @@
-
-
 // import { NavLink, Outlet } from "react-router-dom";
 // import { useContext, useState } from "react";
 // import { Dialog } from "@headlessui/react";
@@ -99,7 +97,6 @@
 
 // export default Dashboard;
 
-
 import { NavLink, Outlet } from "react-router-dom";
 import { useContext, useState } from "react";
 import { Dialog } from "@headlessui/react";
@@ -125,20 +122,22 @@ const Dashboard = () => {
       {isHR && (
         <>
           <li>
-            <NavLink to={"/dashboard/hr/profile"}>Profile</NavLink>
+            <NavLink to={"/dashboard/hr/overview"}>Overview</NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/hr/overview"}>Overview</NavLink>
+            <NavLink to={"/dashboard/hr/profile"}>Profile</NavLink>
           </li>
         </>
       )}
       {isEmployee && (
         <>
           <li>
-            <NavLink to={"/dashboard/employee/profile"}>Employee Profile</NavLink>
+            <NavLink to={"/dashboard/employee/overview"}>Overview</NavLink>
           </li>
           <li>
-            <NavLink to={"/dashboard/employee/overview"}>Overview</NavLink>
+            <NavLink to={"/dashboard/employee/profile"}>
+              Employee Profile
+            </NavLink>
           </li>
         </>
       )}
@@ -196,4 +195,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

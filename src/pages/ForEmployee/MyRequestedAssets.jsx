@@ -150,6 +150,7 @@ const MyRequestedAssets = () => {
     {
       name: "Request Date",
       selector: (row) => new Date(row.requestDate).toLocaleDateString(),
+      sortable: true
     },
     {
       name: "Approval Date",
@@ -212,7 +213,7 @@ const MyRequestedAssets = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       <Helmet>
         <title>My Assets | AMS</title>
       </Helmet>

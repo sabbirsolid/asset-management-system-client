@@ -20,6 +20,16 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { Helmet } from "react-helmet-async";
 import NoticeBoardEmp from "./EmployeePage/NoticeBoardEmp";
+import KeyFeatures from "./KeyFeatures";
+import CallToAction from "./CallToAction";
+import Testimonials from "./Testimonials";
+import HowItWorks from "./HowItWorks";
+import WhyChooseUs from "./WhyChooseUs";
+import ITSupport from "./EmployeePage/ITSupport";
+import AssetUsagePolicy from "./EmployeePage/AssetUsagePolicy";
+import History from "../../ForEmployee/History";
+import RecommendedAssets from "../../ForEmployee/RecomendedAssets";
+import QuickTips from "./EmployeePage/QuickTips";
 
 const Home = () => {
   const { isHR, isEmployee, isLoading } = useUserRoles();
@@ -73,7 +83,24 @@ const Home = () => {
             <MonthlyRequests />
           </motion.div>
           <motion.div variants={childVariants}>
+            <RecommendedAssets />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <ITSupport />
+          </motion.div>
+
+          <motion.div variants={childVariants}>
+            <AssetUsagePolicy />
+          </motion.div>
+          <motion.div variants={childVariants}>
             <NoticeBoardEmp />
+          </motion.div>
+
+          <motion.div variants={childVariants}>
+            <History />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <QuickTips />
           </motion.div>
           {userObject?.company ? (
             ""
@@ -129,6 +156,21 @@ const Home = () => {
           </motion.div>
           <motion.div variants={childVariants}>
             <Packages />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <KeyFeatures></KeyFeatures>
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <CallToAction></CallToAction>
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <Testimonials />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <HowItWorks />
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <WhyChooseUs />
           </motion.div>
           <motion.div variants={childVariants}>
             <About />

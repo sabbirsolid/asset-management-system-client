@@ -7,14 +7,14 @@ const KeyFeatures = () => {
     ];
   
     return (
-      <section className="py-12 bg-gray-100">
+      <section className="py-12 ">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">Key Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
-              <div key={index} className="p-6 bg-white rounded-lg shadow-md">
+              <div key={index} className="p-6  rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold">{feature.title}</h3>
-                <p className="text-gray-600 mt-2">{feature.description}</p>
+                <p className=" mt-2">{feature.description}</p>
               </div>
             ))}
           </div>

@@ -61,7 +61,7 @@ const MyTeamPage = () => {
   ];
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 min-h-screen pt-20">
       <Helmet>
         <title>My Team | AMS</title>
       </Helmet>
