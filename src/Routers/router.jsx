@@ -17,6 +17,9 @@ import MyEmployeeList from "../pages/ForHR/MyEmployeeList";
 import MyTeamPage from "../pages/ForEmployee/MyTeam";
 import Error from "../pages/Error/Error";
 import EmployeeRoute from "./EmployeeRoute";
+import Dashboard from "../pages/ForHR/Dashboard";
+import OverviewHR from "../pages/ForHR/OverviewHR";
+import OverviewEmployee from "../pages/ForEmployee/OverviewEmployee";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +90,45 @@ const router = createBrowserRouter([
           </HrRoute>
         ),
       },
+      {
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
+        children: [
+          {
+            path: "/dashboard/hr/overview",
+            element: (
+              <HrRoute>
+                <OverviewHR></OverviewHR>
+              </HrRoute>
+            ),
+          },
+          {
+            path: "/dashboard/employee/overview",
+            element: (
+              <EmployeeRoute>
+                <OverviewEmployee></OverviewEmployee>
+              </EmployeeRoute>
+            ),
+          },
+          {
+            path: "/dashboard/hr/profile",
+            element: (
+              <HrRoute>
+                <HRProfile></HRProfile>
+              </HrRoute>
+            ),
+          },
+          {
+            path: "/dashboard/employee/profile",
+            element: (
+              <EmployeeRoute>
+                <EmployeeProfile></EmployeeProfile>
+              </EmployeeRoute>
+            ),
+          },
+        ],
+      },
+
       {
         path: "requestForAsset",
         element: (

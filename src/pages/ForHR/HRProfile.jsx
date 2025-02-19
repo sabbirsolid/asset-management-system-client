@@ -27,7 +27,7 @@ const HRProfile = () => {
   };
 
   return (
-    <div className="p-20 min-h-screen ">
+    <div className="p-20 min-h-screen">
       <form
         onSubmit={handleUpdate}
         className="p-6 border rounded-lg max-w-lg mx-auto"

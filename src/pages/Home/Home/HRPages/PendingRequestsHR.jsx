@@ -19,7 +19,7 @@ const PendingRequestsHR = () => {
   });
   if (pendingRequests.length === 0) {
     return (
-      <div className="my-10 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+      <div className="pt-20 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
         <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
           Pending Requests
         </h2>
@@ -29,8 +29,8 @@ const PendingRequestsHR = () => {
   }
 
   return (
-    <section className=" my-10 shadow-md rounded-lg p-6">
-      <h2 className="text-2xl font-bold text-center text-blue-600">
+    <section className="pt-20 shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">
         Pending Requests
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

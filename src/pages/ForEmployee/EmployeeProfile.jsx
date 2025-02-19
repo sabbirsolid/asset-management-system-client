@@ -36,7 +36,7 @@ const EmployeeProfile = () => {
   };
 
   return (
-    <div>
+    <div className="pt-20">
       <Helmet>
         <title>Employee Profile | AMS</title>
       </Helmet>

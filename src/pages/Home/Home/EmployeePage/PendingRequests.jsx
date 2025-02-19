@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure"; // Assuming you have a custom hook for Axios
+import useAxiosSecure from "../../../../hooks/useAxiosSecure"; 
 import { useContext } from "react";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 
@@ -21,7 +21,7 @@ const PendingRequests = () => {
  
   if (requests.length === 0) {
     return (
-      <div className="my-10 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
+      <div className="pt-20 p-6 rounded-lg shadow-lg max-w-full sm:max-w-xl mx-auto overflow-hidden">
         <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
         My Pending Requests
         </h2>
@@ -31,7 +31,7 @@ const PendingRequests = () => {
   }
 
   return (
-    <div className="p-6 my-10 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
+    <div className="p-6 pt-20 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
       <h2 className="text-2xl font-semibold mb-6 text-center -800">My Pending Requests</h2>
       {requests.length > 0 ? (
         <ul className="divide-y divide-gray-200">

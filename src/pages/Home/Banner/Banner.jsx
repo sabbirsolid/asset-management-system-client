@@ -21,7 +21,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto mt-8">
+    <div className="relative w-full max-w-4xl mx-auto pt-24">
       <Carousel
         showThumbs={false}
         showStatus={false}

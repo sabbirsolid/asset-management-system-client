@@ -54,7 +54,7 @@ const Home = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-5">
       <Helmet>
         <title>Home | AMS</title>
       </Helmet>

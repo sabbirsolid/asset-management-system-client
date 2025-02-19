@@ -39,8 +39,8 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/employeeProfile" className={navLinkClass}>
-              Profile
+            <NavLink to="/dashboard" className={navLinkClass}>
+              Dashboard
             </NavLink>
           </li>
         </>
@@ -79,9 +79,10 @@ const Navbar = () => {
               Add Employee
             </NavLink>
           </li>
+          
           <li>
-            <NavLink to="/hr/hrProfile" className={navLinkClass}>
-              Profile
+            <NavLink to="/dashboard" className={navLinkClass}>
+              Dashboard
             </NavLink>
           </li>
         </>
