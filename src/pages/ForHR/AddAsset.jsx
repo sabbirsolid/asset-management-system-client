@@ -3,6 +3,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useUserRoles from "../../hooks/useUserRoles";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import { div } from "framer-motion/client";
 
 const AddAsset = () => {
   const axiosSecure = useAxiosSecure();
@@ -37,7 +38,8 @@ const AddAsset = () => {
   };
 
   return (
-    <div className="p-6 lg:w-2/5 mx-auto border rounded-lg my-5">
+  <div className="pt-20 pb-5 lg:min-h-screen flex items-center">
+    <div className="p-6 lg:w-2/5 mx-auto border rounded-lg ">
       <Helmet>
         <title>Add Asset | AMS</title>
       </Helmet>
@@ -89,6 +91,7 @@ const AddAsset = () => {
         </div>
       </form>
     </div>
+  </div>
   );
 };
 

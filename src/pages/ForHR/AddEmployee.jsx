@@ -109,7 +109,7 @@ const AddEmployee = () => {
   }
 
   return (
-    <div className="p-6 my-5 lg:w-8/12 mx-auto min-h-screen">
+    <div className="p-6 pt-20 lg:w-8/12 mx-auto min-h-screen">
       <Helmet>
         <title>Add Member | AMS</title>
       </Helmet>
@@ -119,7 +119,7 @@ const AddEmployee = () => {
 
       {/* Package Section */}
       <div className=" shadow rounded-lg p-2 lg:p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-xl font-semibold  mb-4">
           Package Information
         </h2>
         <div className="flex flex-col md:flex-row md:justify-between mb-4">

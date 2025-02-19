@@ -109,7 +109,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar  bg-gray-900 fixed z-50">
+    <div className="navbar  bg-gray-900 fixed z-50 w-full">
      <div className="w-11/12 mx-auto ">
        {/* Navbar Start */}
        <div className="navbar-start flex items-center">

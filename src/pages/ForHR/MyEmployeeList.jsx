@@ -134,7 +134,7 @@ const MyEmployeeList = () => {
   }
 
   return (
-    <div className="p-6  min-h-screen">
+    <div className="p-6 pt-20 min-h-screen">
       <Helmet>
         <title>My Employee List | AMS</title>
       </Helmet>

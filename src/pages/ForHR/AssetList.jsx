@@ -146,7 +146,7 @@ const AssetList = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       <Helmet>
         <title>Asset List | AMS</title>
       </Helmet>

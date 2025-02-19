@@ -139,7 +139,7 @@ const AllRequests = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       <Helmet>
         <title>All Requests | AMS</title>
       </Helmet>
