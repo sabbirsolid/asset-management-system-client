@@ -35,19 +35,19 @@ const HRStatistics = () => {
       <div>
         <h3 className="text-lg font-medium text-center mb-4">Request Status</h3>
         <div className="grid grid-cols-3 gap-4">
-          <div className="p-4 border rounded-lg  shadow-sm bg-gray-50">
+          <div className="p-4 border rounded-lg  shadow-sm ">
             <h4 className="text-sm text-center font-medium">Approved</h4>
             <p className="text-2xl text-center font-semibold text-green-500">
               {statusCounts.approved || 0}
             </p>
           </div>
-          <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+          <div className="p-4 border rounded-lg shadow-sm ">
             <h4 className="text-sm text-center font-medium">Pending</h4>
             <p className="text-2xl text-center font-semibold text-yellow-500">
               {statusCounts.pending || 0}
             </p>
           </div>
-          <div className="p-4 border rounded-lg shadow-sm bg-gray-50">
+          <div className="p-4 border rounded-lg shadow-sm ">
             <h4 className="text-sm text-center font-medium">Rejected</h4>
             <p className="text-2xl text-center font-semibold text-red-500">
               {statusCounts.rejected || 0}

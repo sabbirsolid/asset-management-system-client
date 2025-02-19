@@ -192,15 +192,15 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-4 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
+    <div className="flex items-center justify-center min-h-screen ">
+      <div className="w-full max-w-md p-8 space-y-4 border shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-center ">Login</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Email Address
             </label>
@@ -223,7 +223,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Password
             </label>
@@ -246,7 +246,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                className="absolute inset-y-0 right-3 flex items-center hover:text-gray-700"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
@@ -273,7 +273,7 @@ const Login = () => {
 
         <div className="flex items-center justify-between">
           <hr className="w-full border-gray-300" />
-          <span className="px-2 text-sm text-gray-500">OR</span>
+          <span className="px-2 text-sm">OR</span>
           <hr className="w-full border-gray-300" />
         </div>
 

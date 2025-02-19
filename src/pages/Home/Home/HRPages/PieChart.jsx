@@ -58,7 +58,7 @@ const PieChart = () => {
   }
 
   return (
-    <section className="bg-white shadow-md rounded-lg p-6">
+    <section className=" shadow-md rounded-lg p-6">
       <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">
         Request Type Overview
       </h2>

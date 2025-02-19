@@ -134,15 +134,15 @@ const MyEmployeeList = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6  min-h-screen">
       <Helmet>
         <title>My Employee List | AMS</title>
       </Helmet>
-      <h1 className="text-2xl text-center font-bold mb-6 text-gray-800">
+      <h1 className="text-2xl text-center font-bold mb-6 ">
         Employee List
       </h1>
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-700">
+      <div className="shadow-md rounded-lg p-6">
+        <h2 className="text-xl font-semibold mb-4 ">
           Number of Employees: {team?.length}
         </h2>
         <button
@@ -181,12 +181,12 @@ const MyEmployeeList = () => {
 
       {/* Modal for Adding a Notice */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">
+        <div className="fixed inset-0 flex items-center justify-center  bg-opacity-50 z-50">
+          <div className=" p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <h2 className="text-xl font-bold mb-4 ">
               Add a Notice
             </h2>
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-2 font-medium">
               Title:
             </label>
             <input
@@ -198,7 +198,7 @@ const MyEmployeeList = () => {
               className="w-full p-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Enter notice title"
             />
-            <label className="block mb-2 font-medium text-gray-700">
+            <label className="block mb-2 font-medium ">
               Description:
             </label>
             <textarea

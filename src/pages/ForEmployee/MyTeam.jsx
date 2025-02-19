@@ -61,12 +61,12 @@ const MyTeamPage = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 min-h-screen">
       <Helmet>
         <title>My Team | AMS</title>
       </Helmet>
       <h1 className="text-2xl text-center font-bold mb-4">My Team</h1>
-      <div className="bg-white shadow-md p-4 rounded-md">
+      <div className=" shadow-md p-4 rounded-md">
         <DataTable
           title="Team Members"
           columns={columns}

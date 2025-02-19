@@ -29,7 +29,7 @@ const PendingRequestsHR = () => {
   }
 
   return (
-    <section className="bg-white my-10 shadow-md rounded-lg p-6">
+    <section className=" my-10 shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-bold text-center text-blue-600">
         Pending Requests
       </h2>
@@ -37,19 +37,19 @@ const PendingRequestsHR = () => {
         {pendingRequests.map((request) => (
           <div
             key={request._id}
-            className="flex flex-col bg-gray-50 border rounded-md p-4 space-y-2 hover:shadow-lg"
+            className="flex flex-col  border rounded-md p-4 space-y-2 hover:shadow-lg"
           >
             <div className="flex items-center space-x-2">
               <FaClock className="text-yellow-500" />
-              <p className="font-medium text-gray-700">{request.name}</p>
+              <p className="font-medium ">{request.name}</p>
             </div>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm ">
               Requester: {request.requesterName}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm ">
               Email: {request.requesterEmail}
             </p>
-            <p className="text-sm text-gray-500">Notes: {request.notes}</p>
+            <p className="text-sm ">Notes: {request.notes}</p>
           </div>
         ))}
       </div>

@@ -43,7 +43,7 @@ const HRProfile = () => {
               className="object-cover w-full h-full"
             />
           ) : (
-            <div className="flex items-center justify-center w-full h-full bg-gray-100 text-gray-500">
+            <div className="flex items-center justify-center w-full h-full ">
               No Image
             </div>
           )}
@@ -73,7 +73,7 @@ const HRProfile = () => {
           name="email"
           defaultValue={userObject?.email}
           readOnly
-          className="w-full border p-2 rounded bg-gray-100"
+          className="w-full border p-2 rounded "
         />
       </div>
       <button className="w-full p-2 rounded btn text-white bg-blue-500 ">

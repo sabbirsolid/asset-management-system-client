@@ -37,7 +37,7 @@ const PaymentHistory = () => {
       </h2>
 
       {isLoading ? (
-        <p className="text-center text-gray-500">Loading...</p>
+        <p className="text-center ">Loading...</p>
       ) : isError ? (
         <p className="text-center text-red-500">Error: {error.message}</p>
       ) : payments?.length > 0 ? (
@@ -45,21 +45,21 @@ const PaymentHistory = () => {
           {payments?.map((payment) => (
             <div
               key={payment._id}
-              className="bg-white shadow-md rounded-md p-4 border border-gray-200 hover:shadow-lg transition-shadow"
+              className=" shadow-md rounded-md p-4 border border-gray-200 hover:shadow-lg transition-shadow"
             >
-              <h3 className="text-lg font-bold text-gray-700">
+              <h3 className="text-lg font-bold ">
                 {payment.name}
               </h3>
-              <p className="text-sm text-gray-500">Email: {payment.hrEmail}</p>
-              <p className="mt-2 text-gray-800">
+              <p className="text-sm ">Email: {payment.hrEmail}</p>
+              <p className="mt-2 ">
                 <span className="font-medium">Transaction ID:</span>{" "}
                 {payment.transactionId}
               </p>
-              <p className="mt-1 text-gray-800">
+              <p className="mt-1 0">
                 <span className="font-medium">Paid Amount:</span>{" "}
                 {payment.paidAmount} {payment.currency}
               </p>
-              <p className="mt-1 text-gray-800">
+              <p className="mt-1 ">
                 <span className="font-medium">Payment Time:</span>{" "}
                 {new Date(payment.paymentTime).toLocaleString()}
               </p>
@@ -67,7 +67,7 @@ const PaymentHistory = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-500">
+        <p className="text-center">
           No payment history available.
         </p>
       )}

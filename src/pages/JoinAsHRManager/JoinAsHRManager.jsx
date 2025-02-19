@@ -92,12 +92,11 @@ const JoinAsHRManager = () => {
         <title>Join as HR | AMS</title>
       </Helmet>
       <div
-        className="flex justify-center items-center py-10 min-h-screen 
-      bg-gray-100"
+        className="flex justify-center items-center py-10 pt-20 min-h-screen"
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md"
+          className=" p-8 shadow-lg rounded-lg w-full max-w-md  border"
         >
           <h2 className="text-2xl font-bold mb-6 text-center">
             Join as HR Manager
@@ -105,7 +104,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="fullName"
             >
               Full Name
@@ -120,7 +119,7 @@ const JoinAsHRManager = () => {
           </div>
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="companyLogo"
             >
               Your Photo
@@ -138,7 +137,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="companyName"
             >
               Company Name
@@ -155,7 +154,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="companyLogo"
             >
               Company Logo
@@ -173,7 +172,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="email"
             >
               Email
@@ -190,7 +189,7 @@ const JoinAsHRManager = () => {
 
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium "
           >
             Password
           </label>
@@ -206,7 +205,7 @@ const JoinAsHRManager = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 px-3 text-gray-600 focus:outline-none"
+              className="absolute inset-y-0 right-0 px-3  focus:outline-none"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
@@ -214,7 +213,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="dateOfBirth"
             >
               Date of Birth
@@ -231,7 +230,7 @@ const JoinAsHRManager = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="package"
             >
               Select a Package

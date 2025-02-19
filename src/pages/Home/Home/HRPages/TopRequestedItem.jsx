@@ -29,7 +29,7 @@ const TopRequestedItem = () => {
   }
 
   return (
-    <section className="bg-white shadow-md rounded-lg p-6 space-y-4">
+    <section className=" shadow-md rounded-lg p-6 space-y-4">
       <h2 className="text-2xl font-bold text-center text-blue-600">
         Top Requested Items
       </h2>
@@ -37,10 +37,10 @@ const TopRequestedItem = () => {
         {topItems.map((item, index) => (
           <div
             key={index}
-            className="flex justify-between items-center p-4 bg-gray-50 border rounded-md shadow-sm hover:shadow-md"
+            className="flex justify-between items-center p-4 border rounded-md shadow-sm hover:shadow-md"
           >
-            <span className="font-medium text-gray-700">{item.name}</span>
-            <span className="text-sm text-gray-500">{item.count} requests</span>
+            <span className="font-medium ">{item.name}</span>
+            <span className="text-sm ">{item.count} requests</span>
           </div>
         ))}
       </div>

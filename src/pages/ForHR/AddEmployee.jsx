@@ -113,21 +113,21 @@ const AddEmployee = () => {
       <Helmet>
         <title>Add Member | AMS</title>
       </Helmet>
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-700">
+      <h1 className="text-3xl font-bold mb-6 text-center ">
         Add Employee
       </h1>
 
       {/* Package Section */}
-      <div className="bg-white shadow rounded-lg p-2 lg:p-6 mb-8">
+      <div className=" shadow rounded-lg p-2 lg:p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Package Information
         </h2>
         <div className="flex flex-col md:flex-row md:justify-between mb-4">
-          <p className="text-gray-600">
+          <p className="">
             Current Employees:{" "}
             <span className="font-medium">{currentCount}</span>
           </p>
-          <p className="text-gray-600">
+          <p className="">
             Employee Limit: <span className="font-medium">{packageLimit}</span>
           </p>
         </div>
@@ -146,11 +146,11 @@ const AddEmployee = () => {
         </select>
 
         {showPayment && (
-          <div className="mt-6 bg-gray-50 px-1 py-4 lg:px-4 rounded-lg border">
-            <h3 className="text-lg font-semibold mb-2 text-gray-700">
+          <div className="mt-6  px-1 py-4 lg:px-4 rounded-lg border">
+            <h3 className="text-lg font-semibold mb-2 ">
               Confirm Payment
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className=" mb-4">
               Selected Package:{" "}
               <span className="font-medium">{selectedPackage?.title}</span> - ${" "}
               <span className="font-medium">{selectedPackage?.price}</span>
@@ -170,14 +170,14 @@ const AddEmployee = () => {
       </div>
 
       {/* User List Section */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+      <div className=" shadow rounded-lg p-6">
+        <h2 className="text-2xl font-semibold mb-6 ">
           Available Users
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-200 rounded-lg">
             <thead>
-              <tr className="bg-gray-100 text-gray-700">
+              <tr className="">
                 <th className="px-6 py-3 text-left text-sm font-medium">
                   Select
                 </th>
@@ -197,7 +197,7 @@ const AddEmployee = () => {
                 <tr
                   key={user._id}
                   className={`${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    index % 2 === 0 ? "" : ""
                   } hover:bg-gray-100 transition duration-200`}
                 >
                   <td className="px-6 py-4 text-center">
@@ -215,7 +215,7 @@ const AddEmployee = () => {
                       className="w-10 h-10 rounded-full object-cover mx-auto"
                     />
                   </td>
-                  <td className="px-6 py-4 text-center text-gray-700">
+                  <td className="px-6 py-4 text-center ">
                     {user.name}
                   </td>
                   <td className="px-6 py-4 text-center">

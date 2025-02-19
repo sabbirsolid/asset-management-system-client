@@ -99,19 +99,19 @@ const JoinAsEmployee = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex items-center justify-center min-h-screen p-4 pt-20">
       <Helmet>
         <title>Join as Employee | AMS</title>
       </Helmet>
-      <div className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+      <div className=" shadow-lg rounded-lg p-6 max-w-md w-full border ">
+        <h2 className="text-2xl font-bold text-center  mb-4">
           Join as an Employee
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
           <div>
             <label
               htmlFor="fullName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Full Name
             </label>
@@ -127,7 +127,7 @@ const JoinAsEmployee = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Email
             </label>
@@ -143,7 +143,7 @@ const JoinAsEmployee = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Password
             </label>
@@ -159,7 +159,7 @@ const JoinAsEmployee = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 px-3 text-gray-600 focus:outline-none"
+                className="absolute inset-y-0 right-0 px-3  focus:outline-none"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
@@ -168,7 +168,7 @@ const JoinAsEmployee = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 font-medium mb-2"
+              className="block  font-medium mb-2"
               htmlFor="companyLogo"
             >
               Your Photo
@@ -187,7 +187,7 @@ const JoinAsEmployee = () => {
           <div>
             <label
               htmlFor="dob"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium "
             >
               Date of Birth
             </label>
@@ -203,13 +203,13 @@ const JoinAsEmployee = () => {
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-blue-500  py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
           </button>
         </form>
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">Or sign up using</p>
+          <p className="text-sm ">Or sign up using</p>
           <button
             onClick={handleSignInWithGoogle}
             className="mt-2 flex items-center justify-center w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"

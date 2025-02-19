@@ -198,8 +198,8 @@ const AssetList = () => {
 
       {/* Update Modal */}
       {selectedAsset && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div className="fixed inset-0  bg-opacity-75 flex justify-center items-center">
+          <div className=" p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-xl font-bold mb-4">Update Asset</h3>
             <input
               type="text"

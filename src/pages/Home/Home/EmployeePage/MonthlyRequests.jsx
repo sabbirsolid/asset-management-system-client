@@ -49,7 +49,7 @@ const MonthlyRequests = () => {
                   <h3 className="text-xl font-semibold ">{req.name}</h3>
                   <p className="text-sm ">{req.requesterName}</p>
                 </div>
-                <div className="text-sm font-semibold text-gray-500">
+                <div className="text-sm font-semibold">
                   <p>Requested Quantity: {req.requestedQuantity}</p>
                   <p>{new Date(req.requestDate).toLocaleDateString()}</p>
                 </div>
