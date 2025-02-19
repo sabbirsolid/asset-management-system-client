@@ -1,7 +1,7 @@
 const AssetUsagePolicy = () => {
     return (
       <div className="p-6 border rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-center mb-4">Asset Usage Policy</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">Asset Usage Policy</h2>
         <p className="mb-4 text-center">Ensure responsible usage of company assets by following these guidelines:</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

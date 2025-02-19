@@ -70,7 +70,7 @@ const RecommendedAssets = () => {
 
   return (
     <section className="p-6 shadow rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Recommended Assets</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">Recommended Assets</h2>
       {randomAssets.length === 0 ? (
         <p className="text-red-600 text-center">No recommendations available.</p>
       ) : (

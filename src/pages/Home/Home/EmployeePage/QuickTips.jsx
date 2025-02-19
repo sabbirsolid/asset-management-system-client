@@ -1,7 +1,7 @@
 const QuickTips = () => {
   return (
     <section className="p-6 mb-5 w-full md:w-11/12 mx-auto text-center shadow-lg rounded-lg ">
-      <h2 className="text-2xl font-semibold mb-4 ">Quick Tips for Efficient Asset Management</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">Quick Tips for Efficient Asset Management</h2>
       <ul className="list-disc space-y-2  mx-auto max-w-2xl text-left">
         <li>Always double-check your asset request details before submitting.</li>
         <li>Regularly review your assigned assets and ensure their timely return.</li>

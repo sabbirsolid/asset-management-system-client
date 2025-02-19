@@ -32,7 +32,7 @@ const PendingRequests = () => {
 
   return (
     <div className="p-6 pt-20 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl mx-auto overflow-hidden">
-      <h2 className="text-2xl font-semibold mb-6 text-center -800">My Pending Requests</h2>
+      <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">My Pending Requests</h2>
       {requests.length > 0 ? (
         <ul className="divide-y divide-gray-200">
           {requests.map((req) => (
