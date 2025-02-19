@@ -5,7 +5,6 @@ import { AuthContext } from "../Providers/AuthProvider";
 
 const axiosSecure = axios.create({
   baseURL: "https://asset-management-system-server-drab.vercel.app",
-  // baseURL: "http://localhost:5000",
 });
 const useAxiosSecure = () => {
   const navigate = useNavigate();
