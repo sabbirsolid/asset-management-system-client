@@ -151,14 +151,14 @@ const Dashboard = () => {
   return (
     <div className="flex min-h-screen pt-16 overflow-hidden">
       {/* Sidebar for Desktop */}
-      <div className="hidden md:block w-64 min-h-screen p-4">
+      <div className="hidden md:block w-64 bg-blue-600  min-h-screen p-4">
         <ul className="menu">{menuItems}</ul>
       </div>
 
       {/* Mobile Drawer Button */}
       <button
         onClick={() => setIsDrawerOpen(true)}
-        className="md:hidden mt-14 fixed top-4 bg-white p-2 rounded-xl left-4 z-50 shadow-md"
+        className="md:hidden mt-14 fixed top-4 bg-white p-1 rounded-xl left-4 z-50 shadow-md"
       >
         <PanelLeftOpen size={24} />
       </button>
@@ -173,7 +173,7 @@ const Dashboard = () => {
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
         {/* Drawer Panel */}
-        <Dialog.Panel className="fixed top-16 left-0 w-64 h-[80vh] md:h-full bg-slate-200  shadow-lg p-4 transform transition-transform duration-300 ease-in-out">
+        <Dialog.Panel className="fixed top-16 left-0 w-40 h-[80vh] md:h-full bg-blue-600  shadow-lg p-4 transform transition-transform duration-300 ease-in-out">
           {/* Close Button */}
           <button
             onClick={() => setIsDrawerOpen(false)}
